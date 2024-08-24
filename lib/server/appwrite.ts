@@ -1,7 +1,7 @@
 "use server";
 import { Client, Account, Databases, Query, ID, Avatars } from "node-appwrite";
 import { cookies } from "next/headers";
-import { Iuser, StartupDetail, StartupDetailResponse, INewUser } from "../types/types";
+import { Iuser, StartupDetail, StartupDetailResponse, INewUser, Assisment } from "../types/types";
 
 
 export async function createUserAccount(user: INewUser) {
@@ -283,15 +283,15 @@ export async function createAdminClient() {
 }
 
 export async function onboardUser({
-    designation,
+    age,
+    gender,
+    occupation,
     city,
-    organisation,
-    dob
 }: {
-    designation: string,
-    city: string,
-    organisation: string,
-    dob: string
+    age: string;
+    gender: string;
+    occupation: string;
+    city: string;
 }) {
     try {
         const client = new Client()
@@ -306,7 +306,7 @@ export async function onboardUser({
             process.env.APPWRITE_DB as string,
             process.env.APPWRITE_USER as string,
             user?.$id!,
-            { designation, city, organisation, dob, is_onboarded: true }
+            { age, gender, occupation, city, is_onboarded: true }
         );
         return true;
     }
@@ -340,6 +340,50 @@ export async function createStartupConvo(startupDetail: StartupDetail) {
                 countryRegion: startupDetail.countryRegion,
                 threadId: startupDetail.threadId,
                 userId: user?.$id,
+            }
+        );
+    }
+    catch (error) {
+        console.log(error)
+        return null
+    }
+}
+export async function createAssisment(assisment: Assisment) {
+    try {
+        const client = new Client()
+            .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
+            .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
+            .setKey(process.env.NEXT_APPWRITE_KEY!);
+
+        const databases = new Databases(client);
+        const user = await getUserData();
+
+
+        return await databases.createDocument(
+            process.env.APPWRITE_DB as string,
+            process.env.APPWRITE_CONVO as string,
+            ID.unique(),
+            {
+                name: assisment.name,
+                age: assisment.age,
+                gender: assisment.gender,
+                occupation: assisment.occupation,
+                locationOfPain: assisment.locationOfPain,
+                durationOfPain: assisment.durationOfPain,
+                painStartedFrom: assisment.painStartedFrom,
+                customerProblem: assisment.customerProblem,
+                painIncreasesWhen: assisment.painIncreasesWhen,
+                painPattern: assisment.painPattern,
+                qualityOfPain: assisment.qualityOfPain,
+                severityOfPain: assisment.severityOfPain,
+                preExistingCondition: assisment.preExistingCondition,
+                familyMadicalHistoryOfSameProblem: assisment.familyMadicalHistoryOfSameProblem,
+                symptomExperienced: assisment.symptomExperienced,
+                bodyTemperature: assisment.bodyTemperature,
+                userInput: assisment.userInput,
+                isRadiateToOtherPart: assisment.isRadiateToOtherPart,
+                user: user?.$id,
+                threadId: assisment.threadId,
             }
         );
     }

@@ -16,8 +16,10 @@ import { Label } from "@/components/ui/label";
 import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
 import StartupForm from "./FormForConvo";
 import { getAllStartupConvos } from "@/lib/server/appwrite";
+import { Iuser } from "@/lib/types/types";
+import Assignment from "./Assisment";
 
-const Dashboard = async () => {
+const Dashboard = async ({ user }: { user: Iuser }) => {
   const startupConvos = await getAllStartupConvos();
 
   return (
@@ -33,46 +35,39 @@ const Dashboard = async () => {
             </Button>
           </DialogTrigger>
           <DialogContent className="w-screen md:min-w-[600px]">
-            <StartupForm />
+            <Assignment user={user} />
           </DialogContent>
         </Dialog>
       </div>
-      {(startupConvos?.length as number) > 0 ? (
+      {(user.conversations?.length as number) > 0 ? (
         <ul className="mt-8 grid grid-cols-1 gap-6 divide-y divide-zinc-200 md:grid-cols-2 lg:grid-cols-3">
-          {startupConvos
-            ?.sort(
-              (a, b) => Date.parse(b?.$updatedAt) - Date.parse(a?.$updatedAt)
-            )
-            .map((startupConvo, index) => (
-              <li
-                key={index}
-                className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
+          {user.conversations.map((startupConvo, index) => (
+            <li
+              key={index}
+              className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
+            >
+              <Link
+                href={`/dashboard/${startupConvo.$id}`}
+                className="flex flex-col gap-2"
               >
-                <Link
-                  href={`/dashboard/${startupConvo.$id}`}
-                  className="flex flex-col gap-2"
-                >
-                  <div className="py-6 px-6 flex w-full items-center justify-between space-x-6">
-                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
-                    <div className="flex-1 truncate">
-                      <div className="flex items-center space-x-3">
-                        <h3 className="truncate text-lg font-medium text-zinc-900">
-                          {startupConvo.startupName}
-                        </h3>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center justify-between px-6 py-4 space-x-2">
-                        {format(
-                          new Date(startupConvo.$updatedAt),
-                          "dd MMM yyyy"
-                        )}
-                      </div>
+                <div className="py-6 px-6 flex w-full items-center justify-between space-x-6">
+                  <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
+                  <div className="flex-1 truncate">
+                    <div className="flex items-center space-x-3">
+                      <h3 className="truncate text-lg font-medium text-zinc-900">
+                        {startupConvo.name}
+                      </h3>
                     </div>
                   </div>
-                </Link>
-              </li>
-            ))}
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center justify-between px-6 py-4 space-x-2">
+                      {format(new Date(startupConvo.$updatedAt), "dd MMM yyyy")}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            </li>
+          ))}
         </ul>
       ) : (
         <div>

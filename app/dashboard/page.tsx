@@ -7,11 +7,12 @@ import { redirect } from "next/navigation";
 
 const page = async () => {
   const user = await getUserData();
+  console.log(user?.conversations);
   if (!user?.is_onboarded) return redirect("/onboarding");
   return (
     <div className="min-h-screen">
       <NavBar />
-      <Dashboard />
+      <Dashboard user={user} />
       <SiteFooter />
     </div>
   );

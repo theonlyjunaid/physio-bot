@@ -10,22 +10,22 @@ const page = async () => {
   if (user?.is_onboarded) return redirect("/dashboard");
 
   const onboardUserToDB = async ({
-    organisation,
-    designation,
-    dob,
+    age,
+    gender,
+    occupation,
     city,
   }: {
-    organisation: string;
-    designation: string;
-    dob: string;
+    age: string;
+    gender: string;
+    occupation: string;
     city: string;
   }) => {
     "use server";
     const user = await onboardUser({
-      designation,
+      age,
+      gender,
+      occupation,
       city,
-      organisation,
-      dob,
     });
     console.log(user);
   };

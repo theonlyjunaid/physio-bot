@@ -5,26 +5,33 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Iuser } from "@/lib/types/types";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 export function Onboarding({
   onboardUserToDB,
 }: {
   onboardUserToDB: ({
-    designation,
+    age,
+    gender,
+    occupation,
     city,
-    organisation,
-    dob,
   }: {
-    organisation: string;
-    designation: string;
-    dob: string;
+    age: string;
+    gender: string;
+    occupation: string;
     city: string;
   }) => Promise<void>;
 }) {
   const [formData, setFormData] = useState({
-    organisation: "",
-    designation: "",
-    dob: "",
+    age: "",
+    gender: "",
     city: "",
+    occupation: "",
   });
 
   const router = useRouter();
@@ -33,9 +40,9 @@ export function Onboarding({
     e.preventDefault();
 
     try {
-      const { organisation, designation, dob, city } = formData;
-      await onboardUserToDB({ organisation, designation, dob, city });
-      console.log({ organisation, designation, dob, city });
+      const { age, gender, occupation, city } = formData;
+      await onboardUserToDB({ age, gender, occupation, city });
+      console.log({ age, gender, occupation, city });
       router.push("/dashboard");
     } catch (error) {
       console.error("Failed to onboard user", error);
@@ -55,43 +62,89 @@ export function Onboarding({
         </div>
         <form className="grid gap-4" onSubmit={handleSubmit}>
           <div className="grid gap-2">
-            <Label htmlFor="organization">Organization</Label>
-            <Input
-              id="organization"
-              placeholder="Enter your organization name"
-              required
-              value={formData.organisation}
-              onChange={(e) =>
-                setFormData({ ...formData, organisation: e.target.value })
-              }
-            />
+            <Label htmlFor="age" className="mb-1">
+              Age
+            </Label>
+            <Select
+              onValueChange={(value) => {
+                setFormData({
+                  ...formData,
+                  age: value,
+                });
+              }}
+              value={formData.age}
+            >
+              <SelectTrigger className="" id="age">
+                <SelectValue placeholder="age" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="0-5">0-5</SelectItem>
+                <SelectItem value="6-12">6-12</SelectItem>
+                <SelectItem value="13-18">13-18</SelectItem>
+                <SelectItem value="19-29">19-29</SelectItem>
+                <SelectItem value="30-39">30-39</SelectItem>
+                <SelectItem value="40-49">40-49</SelectItem>
+                <SelectItem value="50-59">50-59</SelectItem>
+                <SelectItem value="60-69">60-69</SelectItem>
+                <SelectItem value="70+">70+</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="designation">Designation</Label>
-            <Input
-              id="designation"
-              placeholder="Enter your designation"
-              value={formData.designation}
-              required
-              onChange={(e) =>
-                setFormData({ ...formData, designation: e.target.value })
-              }
-            />
+            <Label htmlFor="gender" className="mb-1">
+              Gender
+            </Label>
+            <Select
+              onValueChange={(value) => {
+                setFormData({
+                  ...formData,
+                  gender: value,
+                });
+              }}
+              value={formData.gender}
+            >
+              <SelectTrigger className="" id="gender">
+                <SelectValue placeholder="gender" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="male">Male</SelectItem>
+                <SelectItem value="female">Female</SelectItem>
+                <SelectItem value="other">Other</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="grid gap-2">
-              <Label htmlFor="dob">Date of Birth</Label>
-              <Input
-                type="date"
-                id="dob"
-                className=""
-                required
-                placeholder="Enter your date of birth"
-                value={formData.dob}
-                onChange={(e) =>
-                  setFormData({ ...formData, dob: e.target.value })
-                }
-              />
+              <Label htmlFor="occupation" className="mb-1">
+                Occupation
+              </Label>
+              <Select
+                onValueChange={(value) => {
+                  setFormData({
+                    ...formData,
+                    occupation: value,
+                  });
+                }}
+                value={formData.occupation}
+              >
+                <SelectTrigger className="mb-2" id="occupation">
+                  <SelectValue placeholder="occupation" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Student">Student</SelectItem>
+                  <SelectItem value="Manual Worker">Manual Worker</SelectItem>
+                  <SelectItem value="Office Worker">Office Worker</SelectItem>
+                  <SelectItem value="Healthcare Worker">
+                    Healthcare Worker
+                  </SelectItem>
+                  <SelectItem value="Educator">Educator</SelectItem>
+                  <SelectItem value="Self Employed">Self Employed</SelectItem>
+                  <SelectItem value="Housewife">Housewife</SelectItem>
+                  <SelectItem value="Unemployed">Unemployed</SelectItem>
+                  <SelectItem value="Retired">Retired</SelectItem>
+                  <SelectItem value="Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <div className="grid gap-2">
               <Label htmlFor="city">City</Label>
