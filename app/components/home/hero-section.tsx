@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
-import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import { cn } from "@/lib/utils";
@@ -17,9 +17,9 @@ const HeroSection = () => {
             animationFillMode: "forwards",
           }}
         >
-          We Solve Funding, <br />
+          When You Move Better <br />
           <span className="text-gradient_indigo-purple font-extrabold">
-            You Solve the World{" "}
+            You Live Better
           </span>
         </h1>
         <div
@@ -27,8 +27,8 @@ const HeroSection = () => {
           style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}
         >
           <p className="text-base text-gray-700 dark:text-white/85 md:text-lg max-w-[80%] mx-auto font-custom">
-            Streamlining your path to funding, so you can focus on solving the
-            world{"’"}s biggest challenges.
+            We help you to move better and live better with our personalized
+            physio guide
           </p>
         </div>
 

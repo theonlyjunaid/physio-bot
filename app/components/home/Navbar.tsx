@@ -28,7 +28,8 @@ export async function NavBar() {
       <div className="container flex h-16 items-center justify-between py-4 mx-auto">
         <Link href="/">
           <Image
-            src={"/logo.webp"}
+            src={"/physio_logo.webp"}
+            className="p-4"
             alt="logo"
             width={170}
             height={100}
