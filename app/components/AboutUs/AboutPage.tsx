@@ -93,7 +93,7 @@
 //                     </h2>
 //                     <Slider {...settings} className="mt-6">
 //                         <div className="p-4">
-//                             <div className="bg-gray-50 rounded-md p-6 shadow-lg text-center">
+//                             <div className=" rounded-md p-6 shadow-lg text-center">
 //                                 <Image
 //                                     src={profilePic1}
 //                                     alt="User 1"
@@ -106,7 +106,7 @@
 //                             </div>
 //                         </div>
 //                         <div className="p-4">
-//                             <div className="bg-gray-50 rounded-md p-6 shadow-lg text-center">
+//                             <div className=" rounded-md p-6 shadow-lg text-center">
 //                                 <Image
 //                                     src={profilePic2}
 //                                     alt="User 2"
@@ -119,7 +119,7 @@
 //                             </div>
 //                         </div>
 //                         <div className="p-4">
-//                             <div className="bg-gray-50 rounded-md p-6 shadow-lg text-center">
+//                             <div className=" rounded-md p-6 shadow-lg text-center">
 //                                 <Image
 //                                     src={profilePic3}
 //                                     alt="User 3"

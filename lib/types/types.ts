@@ -23,32 +23,8 @@ export type INewUser = {
     password: string;
 };
 
-export type StartupDetail = {
-    startupName: string;
-    startupDescription: string;
-    industrySector: string;
-    stageOfStartup: string;
-    purposeOfFunding: string;
-    countryRegion: string;
-    threadId: string;
-};
 
-export type StartupDetailResponse = {
-    $id: string,
-    $permissions: [],
-    $createdAt: string,
-    $updatedAt: string,
-    $tenant: string,
-    startupName: string;
-    startupDescription: string;
-    industrySector: string;
-    stageOfStartup: string;
-    purposeOfFunding: string;
-    countryRegion: string;
-    threadId: string;
-    $databaseId: string,
-    $collectionId: string
-};
+
 
 export type Assisment = {
     name: string;

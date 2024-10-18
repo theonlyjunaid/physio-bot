@@ -5,17 +5,22 @@ import Dashboard from "../components/Dashboard/Dashboard";
 import { getUserData } from "@/lib/server/appwrite";
 import { redirect } from "next/navigation";
 
-const page = async () => {
+const DashboardPage = async () => {
   const user = await getUserData();
-  console.log(user?.conversations);
-  if (!user?.is_onboarded) return redirect("/onboarding");
+
+  if (!user?.is_onboarded) {
+    return redirect("/onboarding");
+  }
+
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col min-h-screen ">
       <NavBar />
-      <Dashboard user={user} />
+      <main className="flex-grow">
+        <Dashboard user={user} />
+      </main>
       <SiteFooter />
     </div>
   );
 };
 
-export default page;
+export default DashboardPage;

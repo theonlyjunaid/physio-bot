@@ -5,59 +5,55 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Image from "next/image";
+import { LogOut } from "lucide-react";
 
 export async function NavBar() {
   const user = await getUserData();
 
   async function signOut() {
     "use server";
-
     const { account } = await createSessionClient();
-
     cookies().delete("my-custom-session");
     await account.deleteSession("current");
-
     redirect("/signup");
   }
 
-  // if (!user?.is_onboarded) return redirect("/onboarding");
   return (
-    <header
-      className={`sticky top-0 z-40 flex w-full justify-center bg-background/60 backdrop-blur-xl transition-all border-b`}
-    >
-      <div className="container flex h-16 items-center justify-between py-4 mx-auto">
-        <Link href="/">
+    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-lg ">
+      <div className="container flex h-16 items-center justify-between py-6 mx-auto">
+        <Link href="/" className="flex items-center space-x-2">
           <Image
-            src={"/physio_logo.webp"}
-            className="p-4"
-            alt="logo"
-            width={170}
-            height={100}
-            loading="eager"
+            src="/physio_logo.webp"
+            alt="PhysioAI Logo"
+            width={150}
+            height={150}
+            className="object-contain"
+            priority
           />
         </Link>
 
-        {user ? (
-          <div className="flex gap-5">
-            <Link href="/dashboard">
-              <Button variant="default">Dashboard</Button>
-            </Link>
 
+        {user ? (
+          <div className="flex items-center space-x-4">
+            <Link href="/dashboard">
+              <Button variant="outline">Dashboard</Button>
+            </Link>
             <form action={signOut}>
-              <Button variant="destructive">Sign Out</Button>
+              <Button variant="destructive">
+                <LogOut className="h-4 w-4" />
+                <span className="sr-only">Sign Out</span>
+              </Button>
             </form>
           </div>
         ) : (
           <Link href="/signup">
-            <Button variant="default">Start Now</Button>
+            <Button>Get Started</Button>
           </Link>
         )}
       </div>
-      <div
-        className={cn(
-          "absolute -bottom-5 z-50 h-10 w-full [mask:linear-gradient(90deg,transparent,black_20%,black_80%,transparent)] before:absolute before:inset-0 before:top-5 before:h-[1px] before:bg-gradient-to-r before:from-[#AE48FF] before:via-[#6C47FF] before:via-[25%] before:to-[#18CCFC] before:opacity-20 before:blur-[2px] after:absolute after:inset-0 after:left-1/2 after:top-5 after:h-[1px] after:w-full after:-translate-x-1/2 after:bg-gradient-to-r after:from-[#AE48FF] after:via-[#6C47FF] after:via-[25%] after:to-[#18CCFC] after:[mask:linear-gradient(90deg,transparent,black,black,transparent)]"
-        )}
-      />
+      <div className={cn(
+        "absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-foreground/20 to-transparent"
+      )} />
     </header>
   );
 }

@@ -1,36 +1,66 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import styles from "./chat.module.css";
 import { AssistantStream } from "openai/lib/AssistantStream";
 import Markdown from "react-markdown";
 // @ts-expect-error - no types for this yet
 import { AssistantStreamEvent } from "openai/resources/beta/assistants/assistants";
 import { RequiredActionFunctionToolCall } from "openai/resources/beta/threads/runs/runs";
+import { Button } from "@/components/ui/button";
+import { Loader2, Send } from "lucide-react";
+import { Assisment, Iuser } from "@/lib/types/types";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Input } from "@/components/ui/input";
 
+const isUserPro = true
 type MessageProps = {
   role: "user" | "assistant" | "code";
   text: string;
 };
 
 const UserMessage = ({ text }: { text: string }) => {
-  return <div className={styles.userMessage}>{text}</div>;
+  return (
+    <div className="self-end  bg-primary text-primary-foreground my-2 p-2 px-4 rounded-lg max-w-[80%] break-words md:mr-6">
+      {text}
+    </div>
+  );
 };
 
 const AssistantMessage = ({ text }: { text: string }) => {
+  function removeCitations(text: string) {
+    // Regular expression pattern to match the citation format
+    const pattern = /【\d+:\d+†source】/g;
+
+    // Replace matched patterns with an empty string
+    const cleanedText = text.replace(pattern, "");
+
+    const linkPattern = /\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g;
+
+    // Replace the link format with bold text and make it open in a new tab
+    const modifiedText = cleanedText.replace(
+      linkPattern,
+      (match, linkText, url) => {
+        return `**[${linkText}](${url})**`;
+      }
+    );
+
+    // Create a contai
+    return modifiedText;
+  }
+
   return (
-    <div className={styles.assistantMessage}>
-      <Markdown>{text}</Markdown>
+    <div className="self-start bg-muted my-2 p-2 px-4 rounded-lg max-w-[80%] break-words">
+      <Markdown>{removeCitations(text)}</Markdown>
     </div>
   );
 };
 
 const CodeMessage = ({ text }: { text: string }) => {
   return (
-    <div className={styles.codeMessage}>
+    <div className="self-start bg-muted my-2 p-2 px-4 rounded-lg max-w-[80%] break-words font-mono">
       {text.split("\n").map((line, index) => (
-        <div key={index}>
-          <span>{`${index + 1}. `}</span>
+        <div key={index} className="mt-1">
+          <span className="text-gray-500 mr-2">{`${index + 1}. `}</span>
           {line}
         </div>
       ))}
@@ -61,16 +91,23 @@ type ChatProps = {
     toolCall: RequiredActionFunctionToolCall
   ) => Promise<string>;
   threadId: string;
+  assisment: Assisment;
+  user: Iuser;
 };
 
 const Chat = ({
   threadId,
+  assisment,
+  user,
   functionCallHandler = () => Promise.resolve(""), // default to return empty string
 }: ChatProps) => {
   const [userInput, setUserInput] = useState("");
+
   const [messages, setMessages] = useState<{ role: string; text: string }[]>(
     []
   );
+
+  const [loading, setLoading] = useState(true);
   const [inputDisabled, setInputDisabled] = useState(false);
 
   // automatically scroll to bottom of chat
@@ -137,6 +174,34 @@ const Chat = ({
   };
 
   /* Stream Event Handlers */
+
+  const handleFirstMessage = () => {
+    const message = `
+    Name: ${assisment.name}
+    Age: ${assisment.age}
+    Gender: ${assisment.gender}
+    Occupation: ${assisment.occupation}
+    Location of Pain: ${assisment.locationOfPain}
+    Duration of Pain: ${assisment.durationOfPain}
+    Pain Started From: ${assisment.painStartedFrom}
+    Does Pain Radiate to Other Parts: ${assisment.isRadiateToOtherPart}
+    Customer's Problem: ${assisment.customerProblem}
+    Pain Increases When: ${assisment.painIncreasesWhen}
+    Pain Pattern: ${assisment.painPattern}
+    Quality of Pain: ${assisment.qualityOfPain}
+    Severity of Pain: ${assisment.severityOfPain}
+    Pre-existing Conditions: ${assisment.preExistingCondition}
+    Family Medical History of Same Problem: ${assisment.familyMadicalHistoryOfSameProblem}
+    Symptoms Experienced: ${assisment.symptomExperienced}
+    Body Temperature: ${assisment.bodyTemperature}
+    User Input: ${assisment.userInput}
+    `
+
+    sendMessage(message);
+    setUserInput("");
+    setInputDisabled(true);
+    scrollToBottom();
+  };
 
   // textCreated - create new assistant message
   const handleTextCreated = () => {
@@ -259,42 +324,121 @@ const Chat = ({
       const messages = await response.json();
       console.log(messages);
       setMessages(messages.formattedData);
+      setLoading(false);
     };
     fetchMessages();
   }, [threadId]);
+  // useEffect(() => {
+  //   if (messages.length > 0 && !assisment.is_reviewed) {
+  //     setOpen(true);
+  //   }
+  // }, [messages.length]);
 
   return (
-    <div className={styles.chatContainer}>
-      <div className={styles.messages}>
-        {messages.map((msg, index) => (
-          <Message
-            key={index}
-            role={msg.role as "user" | "assistant" | "code"}
-            text={msg.text}
-          />
-        ))}
-        <div ref={messagesEndRef} />
-      </div>
-      <form
-        onSubmit={handleSubmit}
-        className={`${styles.inputForm} ${styles.clearfix}`}
-      >
-        <input
-          type="text"
-          className={styles.input}
-          value={userInput}
-          onChange={(e) => setUserInput(e.target.value)}
-          placeholder="Enter your question"
-        />
-        <button
-          type="submit"
-          className={styles.button}
-          disabled={inputDisabled}
-        >
-          Send
-        </button>
-      </form>
-    </div>
+    <div className="flex flex-col-reverse h-full w-full relative ">
+      <ScrollArea className="h-full">
+        <div className="flex-grow overflow-y-auto p-2.5 flex flex-col order-2 whitespace-pre-wrap pb-28">
+          {loading ? (
+            <div className="w-full flex flex-col gap-5 text-center  items-center pt-28 justify-center ">
+              <Loader2 className=" animate-spin" />
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Fething Data...
+              </p>
+            </div>
+          ) : messages.length ? (
+            messages.map((msg, index) => (
+              <Message
+                key={index}
+                role={msg.role as "user" | "assistant" | "code"}
+                text={msg.text}
+              />
+            ))
+          ) : (
+            <div className="w-full flex flex-col gap-5 text-center  items-center pt-28 justify-center ">
+              <form action={handleFirstMessage}>
+                <Button
+                  type="submit"
+                  className="px-6 py-2  border-none text-base rounded-full  h-full"
+                  disabled={inputDisabled}
+                >
+                  Get Response
+                </Button>
+              </form>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+      </ScrollArea>
+      {messages.length > 0 ? (
+
+        isUserPro ? (messages.length < 50 ?
+
+          < form
+            onSubmit={handleSubmit}
+            className="p-4 border-t flex-col gap-2  bottom-0 fixed w-full z-10  md:w-[55%] bg-white dark:bg-black"
+          >
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                placeholder="Type your message..."
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                className="flex-grow"
+              />
+              <Button type="submit" disabled={inputDisabled}>
+                <Send className="h-4 w-4" />
+                <span className="sr-only">Send</span>
+              </Button>
+            </div>
+            <div className="text-muted-foreground pt-1 text-sm mx-auto text-center">
+              if message get stuck in a mid way, click{" "}
+              <Button
+                variant="ghost"
+                className="underline p-1"
+                onClick={() => {
+                  if (typeof window !== "undefined") window.location.reload();
+                }}
+              >
+                here
+              </Button>
+            </div>
+          </form> : <div className="text-muted-foreground pt-1 h-8 text-red-500 text-sm mx-auto text-center">
+            You have reached the limit of 50 messages.
+          </div>) : (messages.length < 5 ? < form
+            onSubmit={handleSubmit}
+            className="p-4 border-t flex-col gap-2  bottom-0 fixed w-full z-10  md:w-[55%] bg-white dark:bg-black"
+          >
+            <div className="flex gap-2">
+              <Input
+                type="text"
+                placeholder="Type your message..."
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                className="flex-grow"
+              />
+              <Button type="submit" disabled={inputDisabled}>
+                <Send className="h-4 w-4" />
+                <span className="sr-only">Send</span>
+              </Button>
+            </div>
+            <div className="text-muted-foreground pt-1 text-sm mx-auto text-center">
+              if message get stuck in a mid way, click{" "}
+              <Button
+                variant="ghost"
+                className="underline p-1"
+                onClick={() => {
+                  if (typeof window !== "undefined") window.location.reload();
+                }}
+              >
+                here
+              </Button>
+            </div>
+          </form> : <div className="text-muted-foreground pt-1 text-red-500 h-8 text-sm mx-auto text-center">
+            You have reached the limit of 5 messages. Please upgrade to Pro to continue.
+          </div>)
+      ) : null
+      }
+    </div >
   );
 };
 

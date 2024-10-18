@@ -1,7 +1,7 @@
 "use server";
 import { Client, Account, Databases, Query, ID, Avatars } from "node-appwrite";
 import { cookies } from "next/headers";
-import { Iuser, StartupDetail, StartupDetailResponse, INewUser, Assisment } from "../types/types";
+import { Iuser, AssismentResponse, INewUser, Assisment } from "../types/types";
 
 
 export async function createUserAccount(user: INewUser) {
@@ -316,38 +316,7 @@ export async function onboardUser({
     }
 }
 
-export async function createStartupConvo(startupDetail: StartupDetail) {
-    try {
-        const client = new Client()
-            .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
-            .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
-            .setKey(process.env.NEXT_APPWRITE_KEY!);
 
-        const databases = new Databases(client);
-        const user = await getUserData();
-
-
-        return await databases.createDocument(
-            process.env.APPWRITE_DB as string,
-            process.env.APPWRITE_CONVO as string,
-            ID.unique(),
-            {
-                startupName: startupDetail.startupName,
-                startupDescription: startupDetail.startupDescription,
-                industrySector: startupDetail.industrySector,
-                stageOfStartup: startupDetail.stageOfStartup,
-                purposeOfFunding: startupDetail.purposeOfFunding,
-                countryRegion: startupDetail.countryRegion,
-                threadId: startupDetail.threadId,
-                userId: user?.$id,
-            }
-        );
-    }
-    catch (error) {
-        console.log(error)
-        return null
-    }
-}
 export async function createAssisment(assisment: Assisment) {
     try {
         const client = new Client()
@@ -382,8 +351,8 @@ export async function createAssisment(assisment: Assisment) {
                 bodyTemperature: assisment.bodyTemperature,
                 userInput: assisment.userInput,
                 isRadiateToOtherPart: assisment.isRadiateToOtherPart,
-                user: user?.$id,
                 threadId: assisment.threadId,
+                user: user?.$id,
             }
         );
     }
@@ -393,7 +362,7 @@ export async function createAssisment(assisment: Assisment) {
     }
 }
 
-export async function getStartupConvo(id: string) {
+export async function getAssismentConvo(id: string) {
 
     try {
         const client = new Client()
@@ -407,28 +376,30 @@ export async function getStartupConvo(id: string) {
             process.env.APPWRITE_CONVO as string,
             [Query.equal("$id", id!)]
         )
-        return (await convos).documents[0] as StartupDetailResponse;
+        return (await convos).documents[0] as AssismentResponse;
     } catch (error) {
         return null;
     }
 
 }
-export async function getAllStartupConvos() {
+
+export async function getAllAssisment() {
     try {
         const client = new Client()
             .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT!)
             .setProject(process.env.NEXT_PUBLIC_APPWRITE_PROJECT!)
             .setKey(process.env.NEXT_APPWRITE_KEY!);
-        const user = await getUserData();
+
         const databases = new Databases(client);
+        const user = await getUserData();
+
         const convos = databases.listDocuments(
             process.env.APPWRITE_DB as string,
             process.env.APPWRITE_CONVO as string,
-            [Query.equal("userId", user?.$id!)]
+            [Query.equal("user", user?.$id!)]
         )
-        return (await convos).documents;
+        return (await convos).documents.reverse() as AssismentResponse[];
     } catch (error) {
         return null;
     }
-
 }

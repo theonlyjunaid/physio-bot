@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -24,9 +24,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { useRouter } from "next/navigation";
 import { Iuser } from "@/lib/types/types";
 import { createAssisment } from "@/lib/server/appwrite";
+import { Loader2 } from "lucide-react";
 
 const Assignment = ({ user }: { user: Iuser }) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const [assisment, setAssisment] = useState({
     for: "",
@@ -34,26 +37,48 @@ const Assignment = ({ user }: { user: Iuser }) => {
     age: "",
     gender: "",
     occupation: "",
-    locationOfPain: "",
+    locationOfPain: [] as string[],
     durationOfPain: "",
     painStartedFrom: "",
     isRadiateToOtherPart: "",
-    customerProblem: "",
-    painIncreasesWhen: "",
+    customerProblem: [] as string[],
+    painIncreasesWhen: [] as string[],
     painPattern: "",
     qualityOfPain: "",
     severityOfPain: "",
-    preExistingCondition: "",
+    preExistingCondition: [] as string[],
     familyMadicalHistoryOfSameProblem: "",
-    symptomExperienced: "",
+    symptomExperienced: [] as string[],
     bodyTemperature: "",
     userInput: "",
   });
 
   const [step, setStep] = useState(0);
 
+  const validateField = (field: string, value: string | string[]) => {
+    if (Array.isArray(value) && value.length === 0) {
+      setErrors(prev => ({ ...prev, [field]: "This field is required" }));
+      return false;
+    }
+    if (!value) {
+      setErrors(prev => ({ ...prev, [field]: "This field is required" }));
+      return false;
+    }
+    setErrors(prev => ({ ...prev, [field]: "" }));
+    return true;
+  };
+
   const submitAssisment = async () => {
+    // Validate all fields before submission
+    const fieldsToValidate = Object.keys(assisment);
+    const isValid = fieldsToValidate.every(field => validateField(field, assisment[field as keyof typeof assisment]));
+
+    if (!isValid) {
+      return;
+    }
+
     try {
+      setIsLoading(true);
       console.log(assisment);
       const res = await fetch(`/api/assistants/threads`, {
         method: "POST",
@@ -68,31 +93,42 @@ const Assignment = ({ user }: { user: Iuser }) => {
         age: assisment.age,
         gender: assisment.gender,
         occupation: assisment.occupation,
-        locationOfPain: assisment.locationOfPain,
+        locationOfPain: assisment.locationOfPain.join(", "),
         durationOfPain: assisment.durationOfPain,
         painStartedFrom: assisment.painStartedFrom,
-        customerProblem: assisment.customerProblem,
-        painIncreasesWhen: assisment.painIncreasesWhen,
+        customerProblem: assisment.customerProblem.join(", "),
+        painIncreasesWhen: assisment.painIncreasesWhen.join(", "),
         painPattern: assisment.painPattern,
         qualityOfPain: assisment.qualityOfPain,
         severityOfPain: assisment.severityOfPain,
-        preExistingCondition: assisment.preExistingCondition,
+        preExistingCondition: assisment.preExistingCondition.join(", "),
         familyMadicalHistoryOfSameProblem:
           assisment.familyMadicalHistoryOfSameProblem,
-        symptomExperienced: assisment.symptomExperienced,
+        symptomExperienced: assisment.symptomExperienced.join(", "),
         bodyTemperature: assisment.bodyTemperature,
         userInput: assisment.userInput,
         isRadiateToOtherPart: assisment.isRadiateToOtherPart,
         threadId: data.threadId,
       });
-      console.log(convo);
-      console.log(convo);
+
       if (convo) {
         router.push(`/dashboard/${convo.$id}`);
       }
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleInputChange = (field: string, value: string | string[]) => {
+    setAssisment(prev => ({ ...prev, [field]: value }));
+    validateField(field, value);
+  };
+
+  const handleMultiSelectChange = (field: string, value: string[]) => {
+    setAssisment(prev => ({ ...prev, [field]: value }));
+    validateField(field, value);
   };
 
   return (
@@ -157,25 +193,16 @@ const Assignment = ({ user }: { user: Iuser }) => {
               id="name"
               value={assisment.name}
               className="mb-2"
-              onChange={(e) => {
-                setAssisment({
-                  ...assisment,
-                  name: e.target.value,
-                });
-              }}
+              onChange={(e) => handleInputChange("name", e.target.value)}
             />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
             <div className="mb-2 grid w-full md:grid-cols-2 gap-2 md:gap-4">
               <div>
                 <Label htmlFor="age" className="mb-1">
                   Age
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      age: value,
-                    });
-                  }}
+                  onValueChange={(value) => handleInputChange("age", value)}
                   value={assisment.age}
                 >
                   <SelectTrigger className="" id="age">
@@ -193,18 +220,14 @@ const Assignment = ({ user }: { user: Iuser }) => {
                     <SelectItem value="70+">70+</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.age && <p className="text-red-500 text-sm">{errors.age}</p>}
               </div>
               <div>
                 <Label htmlFor="gender" className="mb-1">
                   Gender
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      gender: value,
-                    });
-                  }}
+                  onValueChange={(value) => handleInputChange("gender", value)}
                   value={assisment.gender}
                 >
                   <SelectTrigger className="" id="gender">
@@ -216,18 +239,14 @@ const Assignment = ({ user }: { user: Iuser }) => {
                     <SelectItem value="other">Other</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
               </div>
             </div>
             <Label htmlFor="occupation" className="mb-1">
               Occupation
             </Label>
             <Select
-              onValueChange={(value) => {
-                setAssisment({
-                  ...assisment,
-                  occupation: value,
-                });
-              }}
+              onValueChange={(value) => handleInputChange("occupation", value)}
               value={assisment.occupation}
             >
               <SelectTrigger className="" id="occupation">
@@ -248,6 +267,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 <SelectItem value="Other">Other</SelectItem>
               </SelectContent>
             </Select>
+            {errors.occupation && <p className="text-red-500 text-sm">{errors.occupation}</p>}
           </CardContent>
           <CardFooter className="flex gap-2 md:gap-4">
             <Button
@@ -267,7 +287,12 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <Button
               className="w-full"
               onClick={() => {
-                setStep(2);
+                if (validateField("name", assisment.name) &&
+                  validateField("age", assisment.age) &&
+                  validateField("gender", assisment.gender) &&
+                  validateField("occupation", assisment.occupation)) {
+                  setStep(2);
+                }
               }}
             >
               Next
@@ -288,35 +313,19 @@ const Assignment = ({ user }: { user: Iuser }) => {
               Location of pain{" "}
             </Label>
             <Select
-              onValueChange={(value) => {
-                setAssisment({
-                  ...assisment,
-                  locationOfPain: value,
-                });
-              }}
-              value={assisment.locationOfPain}
+              onValueChange={(value) => handleMultiSelectChange("locationOfPain", value.split(','))}
+              value={assisment.locationOfPain.join(',')}
             >
               <SelectTrigger className="" id="locationOfPain">
-                <SelectValue placeholder="locationOfPain" />
+                <SelectValue placeholder="Select locations" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="neck">Neck</SelectItem>
-                <SelectItem value="shoulder">Shoulder</SelectItem>
-                <SelectItem value="arm">Arm</SelectItem>
-                <SelectItem value="elbow">Elbow</SelectItem>
-                <SelectItem value="wrist">Wrist</SelectItem>
-                <SelectItem value="hand">Hand</SelectItem>
-                <SelectItem value="upper back">Upper Back</SelectItem>
-                <SelectItem value="lower back">Lower Back</SelectItem>
-                <SelectItem value="hip">Hip</SelectItem>
-                <SelectItem value="thigh">Thigh</SelectItem>
-                <SelectItem value="knee">Knee</SelectItem>
-                <SelectItem value="shin calf">Shin Calf</SelectItem>
-                <SelectItem value="ankle">Ankle</SelectItem>
-                <SelectItem value="foot">Foot</SelectItem>
-                <SelectItem value="other">Other</SelectItem>
+                {["neck", "shoulder", "arm", "elbow", "wrist", "hand", "upper back", "lower back", "hip", "thigh", "knee", "shin calf", "ankle", "foot", "other"].map((location) => (
+                  <SelectItem key={location} value={location}>{location}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
+            {errors.locationOfPain && <p className="text-red-500 text-sm">{errors.locationOfPain}</p>}
 
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
               <div>
@@ -324,12 +333,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   Duration of pain
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      durationOfPain: value,
-                    });
-                  }}
+                  onValueChange={(value) => handleInputChange("durationOfPain", value)}
                   value={assisment.durationOfPain}
                 >
                   <SelectTrigger className="" id="durationOfPain">
@@ -353,18 +357,14 @@ const Assignment = ({ user }: { user: Iuser }) => {
                     <SelectItem value="10+ year">10+ Years</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.durationOfPain && <p className="text-red-500 text-sm">{errors.durationOfPain}</p>}
               </div>
               <div>
                 <Label htmlFor="painStartedFrom" className="mb-1">
                   Pain Started From
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      painStartedFrom: value,
-                    });
-                  }}
+                  onValueChange={(value) => handleInputChange("painStartedFrom", value)}
                   value={assisment.painStartedFrom}
                 >
                   <SelectTrigger className="" id="painStartedFrom">
@@ -388,6 +388,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                     </SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.painStartedFrom && <p className="text-red-500 text-sm">{errors.painStartedFrom}</p>}
               </div>
             </div>
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
@@ -396,12 +397,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   Is Radiate To Other Part?
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      isRadiateToOtherPart: value,
-                    });
-                  }}
+                  onValueChange={(value) => handleInputChange("isRadiateToOtherPart", value)}
                   value={assisment.isRadiateToOtherPart}
                 >
                   <SelectTrigger className="" id="isRadiateToOtherPart">
@@ -412,54 +408,26 @@ const Assignment = ({ user }: { user: Iuser }) => {
                     <SelectItem value="No">No</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.isRadiateToOtherPart && <p className="text-red-500 text-sm">{errors.isRadiateToOtherPart}</p>}
               </div>
               <div>
                 <Label htmlFor="customerProblem" className="mb-1">
                   Customer Problem
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      customerProblem: value,
-                    });
-                  }}
-                  value={assisment.customerProblem}
+                  onValueChange={(value) => handleMultiSelectChange("customerProblem", value.split(','))}
+                  value={assisment.customerProblem.join(',')}
                 >
                   <SelectTrigger className="" id="customerProblem">
-                    <SelectValue placeholder="Select an option" />
+                    <SelectValue placeholder="Select problems" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="difficulty walking">
-                      Difficulty Walking
-                    </SelectItem>
-                    <SelectItem value="difficulty standing">
-                      Difficulty Standing
-                    </SelectItem>
-                    <SelectItem value="difficulty sitting">
-                      Difficulty Sitting
-                    </SelectItem>
-                    <SelectItem value="difficulty sleeping">
-                      Difficulty Sleeping
-                    </SelectItem>
-                    <SelectItem value="difficulty lifting objects">
-                      Difficulty in lifting objects
-                    </SelectItem>
-                    <SelectItem value="difficulty bending">
-                      Difficulty in Bending
-                    </SelectItem>
-                    <SelectItem value="difficulty reaching">
-                      Difficulty in Reaching
-                    </SelectItem>
-                    <SelectItem value="general weakness">
-                      General Weakness
-                    </SelectItem>
-                    <SelectItem value="limited range of motion">
-                      Limited Range Of Motion{" "}
-                    </SelectItem>
-                    <SelectItem value="other">Any other </SelectItem>
+                    {["difficulty walking", "difficulty standing", "difficulty sitting", "difficulty sleeping", "difficulty lifting objects", "difficulty bending", "difficulty reaching", "general weakness", "limited range of motion", "other"].map((problem) => (
+                      <SelectItem key={problem} value={problem}>{problem}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
+                {errors.customerProblem && <p className="text-red-500 text-sm">{errors.customerProblem}</p>}
               </div>
             </div>
           </CardContent>
@@ -484,7 +452,13 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <Button
               className="w-full"
               onClick={() => {
-                setStep(3);
+                if (validateField("locationOfPain", assisment.locationOfPain) &&
+                  validateField("durationOfPain", assisment.durationOfPain) &&
+                  validateField("painStartedFrom", assisment.painStartedFrom) &&
+                  validateField("isRadiateToOtherPart", assisment.isRadiateToOtherPart) &&
+                  validateField("customerProblem", assisment.customerProblem)) {
+                  setStep(3);
+                }
               }}
             >
               Next
@@ -505,35 +479,19 @@ const Assignment = ({ user }: { user: Iuser }) => {
               When Pain Increases{" "}
             </Label>
             <Select
-              onValueChange={(value) => {
-                setAssisment({
-                  ...assisment,
-                  painIncreasesWhen: value,
-                });
-              }}
-              value={assisment.painIncreasesWhen}
+              onValueChange={(value) => handleMultiSelectChange("painIncreasesWhen", value.split(','))}
+              value={assisment.painIncreasesWhen.join(',')}
             >
               <SelectTrigger className="" id="painIncreasesWhen">
-                <SelectValue placeholder="painIncreasesWhen" />
+                <SelectValue placeholder="Select conditions" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="during any activity">
-                  during any activity
-                </SelectItem>
-                <SelectItem value="when moving">when moving</SelectItem>
-                <SelectItem value="during rest">during rest</SelectItem>
-                <SelectItem value="during exercise">during exercise</SelectItem>
-                <SelectItem value="during sleep">during sleep</SelectItem>
-                <SelectItem value="at night">at night</SelectItem>
-                <SelectItem value="in the morning">in the morning</SelectItem>
-                <SelectItem value="during both activity and rest">
-                  during both activity and rest
-                </SelectItem>
-                <SelectItem value="with specific movements">
-                  with specific movements
-                </SelectItem>
+                {["during any activity", "when moving", "during rest", "during exercise", "during sleep", "at night", "in the morning", "during both activity and rest", "with specific movements"].map((condition) => (
+                  <SelectItem key={condition} value={condition}>{condition}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
+            {errors.painIncreasesWhen && <p className="text-red-500 text-sm">{errors.painIncreasesWhen}</p>}
 
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
               <div>
@@ -541,12 +499,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   Pattern of pain
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      painPattern: value,
-                    });
-                  }}
+                  onValueChange={(value) => handleInputChange("painPattern", value)}
                   value={assisment.painPattern}
                 >
                   <SelectTrigger className="" id="painPattern">
@@ -560,22 +513,18 @@ const Assignment = ({ user }: { user: Iuser }) => {
                     <SelectItem value="ongoing">Ongoing</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.painPattern && <p className="text-red-500 text-sm">{errors.painPattern}</p>}
               </div>
               <div>
                 <Label htmlFor="qualityOfPain" className="mb-1">
-                  qualityOfPain{" "}
+                  Quality Of Pain{" "}
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      qualityOfPain: value,
-                    });
-                  }}
+                  onValueChange={(value) => handleInputChange("qualityOfPain", value)}
                   value={assisment.qualityOfPain}
                 >
                   <SelectTrigger className="" id="qualityOfPain">
-                    <SelectValue placeholder="qualityOfPain" />
+                    <SelectValue placeholder="Quality Of Pain" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="muscle aching pain">
@@ -594,6 +543,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                     <SelectItem value="other">other</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.qualityOfPain && <p className="text-red-500 text-sm">{errors.qualityOfPain}</p>}
               </div>
             </div>
 
@@ -601,12 +551,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
               Rate your pain
             </Label>
             <Select
-              onValueChange={(value) => {
-                setAssisment({
-                  ...assisment,
-                  severityOfPain: value,
-                });
-              }}
+              onValueChange={(value) => handleInputChange("severityOfPain", value)}
               value={assisment.severityOfPain}
             >
               <SelectTrigger className="" id="severityOfPain">
@@ -628,6 +573,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 </SelectItem>
               </SelectContent>
             </Select>
+            {errors.severityOfPain && <p className="text-red-500 text-sm">{errors.severityOfPain}</p>}
           </CardContent>
           <CardFooter className="flex gap-2 md:gap-4">
             <Button
@@ -642,7 +588,12 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <Button
               className="w-full"
               onClick={() => {
-                setStep(4);
+                if (validateField("painIncreasesWhen", assisment.painIncreasesWhen) &&
+                  validateField("painPattern", assisment.painPattern) &&
+                  validateField("qualityOfPain", assisment.qualityOfPain) &&
+                  validateField("severityOfPain", assisment.severityOfPain)) {
+                  setStep(4);
+                }
               }}
             >
               Next
@@ -658,35 +609,22 @@ const Assignment = ({ user }: { user: Iuser }) => {
           </CardHeader>
           <CardContent>
             <Label htmlFor="preExistingCondition" className="mb-1">
-              pre existing conditions{" "}
+              Pre Existing Conditions{" "}
             </Label>
             <Select
-              onValueChange={(value) => {
-                setAssisment({
-                  ...assisment,
-                  preExistingCondition: value,
-                });
-              }}
-              value={assisment.preExistingCondition}
+              onValueChange={(value) => handleMultiSelectChange("preExistingCondition", value.split(','))}
+              value={assisment.preExistingCondition.join(',')}
             >
               <SelectTrigger className="" id="preExistingCondition">
-                <SelectValue placeholder="preExistingCondition" />
+                <SelectValue placeholder="Select conditions" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="diabetes">diabetes</SelectItem>
-                <SelectItem value="hypertension">hypertension</SelectItem>
-                <SelectItem value="high blood pressure">
-                  high blood pressure
-                </SelectItem>
-                <SelectItem value="obesity">obesity</SelectItem>
-                <SelectItem value="asthma">asthma</SelectItem>
-                <SelectItem value="arthritis">arthritis</SelectItem>
-                <SelectItem value="cancer">cancer</SelectItem>
-                <SelectItem value="heart disease">heart disease</SelectItem>
-                <SelectItem value="kidney disease">kidney disease</SelectItem>
-                <SelectItem value="other">other</SelectItem>
+                {["diabetes", "hypertension", "high blood pressure", "obesity", "asthma", "arthritis", "cancer", "heart disease", "kidney disease", "other"].map((condition) => (
+                  <SelectItem key={condition} value={condition}>{condition}</SelectItem>
+                ))}
               </SelectContent>
             </Select>
+            {errors.preExistingCondition && <p className="text-red-500 text-sm">{errors.preExistingCondition}</p>}
 
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
               <div>
@@ -694,87 +632,62 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   htmlFor="familyMadicalHistoryOfSameProblem"
                   className="mb-1"
                 >
-                  familyMadicalHistoryOfSameProblem{" "}
+                  Family Madical History Of Same Problem{" "}
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      familyMadicalHistoryOfSameProblem: value,
-                    });
-                  }}
+                  onValueChange={(value) => handleInputChange("familyMadicalHistoryOfSameProblem", value)}
                   value={assisment.familyMadicalHistoryOfSameProblem}
                 >
                   <SelectTrigger
                     className=""
                     id="familyMadicalHistoryOfSameProblem"
                   >
-                    <SelectValue placeholder="familyMadicalHistoryOfSameProblem" />
+                    <SelectValue placeholder="Family Madical History Of Same Problem" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="yes">yes</SelectItem>
                     <SelectItem value="no">no</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors.familyMadicalHistoryOfSameProblem && <p className="text-red-500 text-sm">{errors.familyMadicalHistoryOfSameProblem}</p>}
               </div>
               <div>
                 <Label htmlFor="symptomExperienced" className="mb-1">
-                  symptomExperienced{" "}
+                  Symptom Experienced{" "}
                 </Label>
                 <Select
-                  onValueChange={(value) => {
-                    setAssisment({
-                      ...assisment,
-                      symptomExperienced: value,
-                    });
-                  }}
-                  value={assisment.symptomExperienced}
+                  onValueChange={(value) => handleMultiSelectChange("symptomExperienced", value.split(','))}
+                  value={assisment.symptomExperienced.join(',')}
                 >
                   <SelectTrigger className="" id="symptomExperienced">
-                    <SelectValue placeholder="symptomExperienced" />
+                    <SelectValue placeholder="Select symptoms" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="swelling">swelling</SelectItem>
-                    <SelectItem value="functional reduction during movement">
-                      functional reduction during movement
-                    </SelectItem>
-                    <SelectItem value="clicking sound from joint">
-                      clicking sound from joint
-                    </SelectItem>
-                    <SelectItem value="locking or catching sensation in joint">
-                      locking or catching sensation in joint
-                    </SelectItem>
-                    <SelectItem value="redness">redness</SelectItem>
-                    <SelectItem value="warmth">warmth</SelectItem>
-                    <SelectItem value="bruising">bruising</SelectItem>
-                    <SelectItem value="numbness">numbness</SelectItem>
-                    <SelectItem value="weakness">weakness</SelectItem>
-                    <SelectItem value="other">other</SelectItem>
+                    {["swelling", "functional reduction during movement", "clicking sound from joint", "locking or catching sensation in joint", "redness", "warmth", "bruising", "numbness", "weakness", "other"].map((symptom) => (
+                      <SelectItem key={symptom} value={symptom}>{symptom}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
+                {errors.symptomExperienced && <p className="text-red-500 text-sm">{errors.symptomExperienced}</p>}
               </div>
             </div>
 
             <Label htmlFor="bodyTemperature" className="mb-1">
-              body temperature{" "}
+              Body Temperature{" "}
             </Label>
             <Select
-              onValueChange={(value) => {
-                setAssisment({
-                  ...assisment,
-                  bodyTemperature: value,
-                });
-              }}
+              onValueChange={(value) => handleInputChange("bodyTemperature", value)}
               value={assisment.bodyTemperature}
             >
               <SelectTrigger className="" id="bodyTemperature">
-                <SelectValue placeholder="bodyTemperature" />
+                <SelectValue placeholder="Body Temperature" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="fever">fever</SelectItem>
                 <SelectItem value="normal">normal</SelectItem>
               </SelectContent>
             </Select>
+            {errors.bodyTemperature && <p className="text-red-500 text-sm">{errors.bodyTemperature}</p>}
           </CardContent>
           <CardFooter className="flex gap-2 md:gap-4">
             <Button
@@ -789,7 +702,12 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <Button
               className="w-full"
               onClick={() => {
-                setStep(5);
+                if (validateField("preExistingCondition", assisment.preExistingCondition) &&
+                  validateField("familyMadicalHistoryOfSameProblem", assisment.familyMadicalHistoryOfSameProblem) &&
+                  validateField("symptomExperienced", assisment.symptomExperienced) &&
+                  validateField("bodyTemperature", assisment.bodyTemperature)) {
+                  setStep(5);
+                }
               }}
             >
               Next
@@ -807,17 +725,17 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <Textarea
               placeholder="Your input"
               value={assisment.userInput}
-              onChange={(e) =>
-                setAssisment({ ...assisment, userInput: e.target.value })
-              }
+              onChange={(e) => handleInputChange("userInput", e.target.value)}
               className="w-full p-3 text-sm"
               rows={5}
             />
+            {errors.userInput && <p className="text-red-500 text-sm">{errors.userInput}</p>}
           </CardContent>
           <CardFooter className="flex gap-2 md:gap-4">
             <Button
               className="w-full"
               variant="outline"
+              disabled={isLoading}
               onClick={() => {
                 setStep(4);
               }}
@@ -826,10 +744,16 @@ const Assignment = ({ user }: { user: Iuser }) => {
             </Button>
             <Button
               className="w-full"
+              disabled={isLoading}
               onClick={() => {
-                submitAssisment();
+                if (validateField("userInput", assisment.userInput)) {
+                  submitAssisment();
+                }
               }}
             >
+              {isLoading ? (
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              ) : null}
               Submit
             </Button>
           </CardFooter>

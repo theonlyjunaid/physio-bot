@@ -75,8 +75,14 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
 /* global.css or tailwind.css */
 
 .text-gradient {
   @apply bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-transparent bg-clip-text;
+}
+
+* {
+  scroll-behavior: smooth;
+
 }

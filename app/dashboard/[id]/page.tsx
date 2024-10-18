@@ -1,16 +1,17 @@
 import { SiteFooter } from "@/app/components/home/Footer";
 import { NavBar } from "@/app/components/home/Navbar";
-import { getStartupConvo, getUserData } from "@/lib/server/appwrite";
+import { getAssismentConvo, getUserData } from "@/lib/server/appwrite";
 import { redirect } from "next/navigation";
 import styles from "./page.module.css"; // use simple styles for demonstration purposes
 import Chat from "../../components/chat/chat";
-import { StartupDetail } from "@/lib/types/types";
+import { Assisment } from "@/lib/types/types";
+import AssessmentInfo from "@/app/components/chat/AssismentInfo";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const user = await getUserData();
   if (!user) return redirect("/signup");
   if (!user.is_onboarded) return redirect("/onboarding");
-  const convos = (await getStartupConvo(params.id)) as StartupDetail;
+  const convos = (await getAssismentConvo(params.id)) as Assisment;
   console.log(convos);
   if (!convos) return <div>No conversation found.</div>;
   // useEffect(() => {
@@ -25,11 +26,14 @@ export default async function Page({ params }: { params: { id: string } }) {
   // }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <NavBar />
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <Chat threadId={convos.threadId} />
+      <main className="flex flex-col md:flex-row  justify-center items-center ">
+        <div className="md:mr-auto w-full  md:w-[45%]  md:h-[92dvh] md:px-7  ">
+          <AssessmentInfo assessment={convos} />
+        </div>
+        <div className=" md:ml-auto w-full  md:w-[55%] h-[83dvh] md:h-[92dvh] md:border-l ">
+          <Chat threadId={convos.threadId} assisment={convos} user={user} />
         </div>
       </main>
     </div>

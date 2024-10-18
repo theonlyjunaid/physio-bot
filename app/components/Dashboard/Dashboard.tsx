@@ -1,84 +1,136 @@
+"use client";
 import Link from "next/link";
-import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
-import StartupForm from "./FormForConvo";
-import { getAllStartupConvos } from "@/lib/server/appwrite";
-import { Iuser } from "@/lib/types/types";
+import { MessageSquare, Plus, Calendar, User, ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { getAllAssisment } from "@/lib/server/appwrite";
+import { Iuser, AssismentResponse } from "@/lib/types/types";
 import Assignment from "./Assisment";
+import { useState, useEffect } from "react";
 
-const Dashboard = async ({ user }: { user: Iuser }) => {
-  const startupConvos = await getAllStartupConvos();
+const ITEMS_PER_PAGE = 6;
+
+const Dashboard = ({ user }: { user: Iuser }) => {
+  const [assisments, setAssisments] = useState<AssismentResponse[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAssisments = async () => {
+      const fetchedAssisments = await getAllAssisment();
+      setAssisments(fetchedAssisments || []);
+      setIsLoading(false);
+    };
+
+    fetchAssisments();
+  }, []);
+
+  const totalPages = Math.ceil((assisments?.length || 0) / ITEMS_PER_PAGE);
+  const paginatedAssisments = assisments?.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   return (
-    <main className="mx-auto max-w-7xl md:p-10 min-h-screen">
-      <div className="mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
-        <h1 className="mb-3 font-bold text-5xl text-gray-900">My CONVO</h1>
-
+    <main className="mx-auto max-w-7xl p-4 md:p-10 min-h-screen ">
+      <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-gray-200 pb-5">
+        <h1 className="text-4xl font-bold text-gray-900 tracking-tight">My Conversations</h1>
         <Dialog>
           <DialogTrigger asChild>
-            <Button>
-              <Plus className="h-5 w-5 mr-1" />
-              Add New Convo
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+              <Plus className="h-5 w-5 mr-2" />
+              New Conversation
             </Button>
           </DialogTrigger>
-          <DialogContent className="w-screen md:min-w-[600px]">
+          <DialogContent className="w-full max-w-md md:max-w-2xl">
             <Assignment user={user} />
           </DialogContent>
         </Dialog>
       </div>
-      {(user.conversations?.length as number) > 0 ? (
-        <ul className="mt-8 grid grid-cols-1 gap-6 divide-y divide-zinc-200 md:grid-cols-2 lg:grid-cols-3">
-          {user.conversations.map((startupConvo, index) => (
-            <li
-              key={index}
-              className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
-            >
-              <Link
-                href={`/dashboard/${startupConvo.$id}`}
-                className="flex flex-col gap-2"
-              >
-                <div className="py-6 px-6 flex w-full items-center justify-between space-x-6">
-                  <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
-                  <div className="flex-1 truncate">
-                    <div className="flex items-center space-x-3">
-                      <h3 className="truncate text-lg font-medium text-zinc-900">
-                        {startupConvo.name}
-                      </h3>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="flex items-center justify-between px-6 py-4 space-x-2">
-                      {format(new Date(startupConvo.$updatedAt), "dd MMM yyyy")}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <div>
-          <div className="flex flex-col items-center justify-center h-[80vh]">
-            <MessageSquare className="w-16 h-16 text-4xl text-gray-500" />
-            <h1 className="mt-4 text-xl text-gray-900">No Convo found</h1>
-          </div>
+
+      {isLoading ? (
+        <div className="flex justify-center items-center h-64">
+          <Loader2 className="h-10 w-10 text-blue-500 animate-spin" />
         </div>
+      ) : assisments && assisments.length > 0 ? (
+        <>
+          <ul className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {paginatedAssisments.map((assisment: AssismentResponse) => (
+              <ConversationCard key={assisment.$id} assisment={assisment} />
+            ))}
+          </ul>
+          <div className="mt-8 flex justify-center items-center space-x-4">
+            <Button
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="p-2"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </Button>
+            <span>{currentPage} of {totalPages}</span>
+            <Button
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="p-2"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </Button>
+          </div>
+        </>
+      ) : (
+        <EmptyState user={user} />
       )}
     </main>
   );
 };
+
+const ConversationCard = ({ assisment }: { assisment: AssismentResponse }) => (
+  <li className="col-span-1 bg-white rounded-lg border border-gray-200 transition duration-300 ease-in-out transform hover:shadow-sm hover:bg-gray-100 hover:-translate-y-1">
+    <Link href={`/dashboard/${assisment.$id}`} className="block p-6">
+      <div className="flex items-center space-x-4">
+        <div className="flex-1 min-w-0">
+          <p className="text-lg font-semibold text-gray-900 truncate">{assisment.name}</p>
+          <p className="text-sm text-gray-600 mt-1">Age: {assisment.age}, Gender: {assisment.gender}</p>
+          <p className="text-sm text-gray-600">Pain Location: {assisment.locationOfPain}</p>
+          <div className="flex items-center mt-2">
+            <Calendar className="h-4 w-4 text-gray-400 mr-1" />
+            <p className="text-sm text-gray-500 truncate">
+              {format(new Date(assisment.$updatedAt), "PPP")}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div className="mt-4 border-t pt-4">
+        <p className="text-sm text-gray-700 line-clamp-2">{assisment.customerProblem}</p>
+      </div>
+    </Link>
+  </li>
+);
+
+const EmptyState = ({ user }: { user: Iuser }) => (
+  <div className="flex flex-col items-center justify-center h-[60vh] bg-white rounded-lg shadow-md p-8">
+    <MessageSquare className="w-20 h-20 text-blue-400" />
+    <h2 className="mt-6 text-2xl font-bold text-gray-900">No conversations yet</h2>
+    <p className="mt-2 text-gray-500 text-center max-w-md">
+      Start a new conversation to begin your journey towards better health management.
+    </p>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+          <Plus className="h-5 w-5 mr-2" />
+          Start New Conversation
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="w-full max-w-md md:max-w-2xl">
+        <Assignment user={user} />
+      </DialogContent>
+    </Dialog>
+  </div>
+);
 
 export default Dashboard;

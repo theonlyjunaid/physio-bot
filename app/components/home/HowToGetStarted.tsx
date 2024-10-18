@@ -109,11 +109,10 @@ export const HowToGetStarted = () => {
                 />
               </div>
               <div
-                className={`md:self-center ${
-                  item.id % 2 == 0 ? "md:order-1" : ""
-                } `}
+                className={`md:self-center ${item.id % 2 == 0 ? "md:order-1" : ""
+                  } `}
               >
-                <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-400 bg-gray-50 dark:bg-black">
+                <div className="inline-flex h-14 w-14 items-center justify-center rounded-xl border border-gray-200 dark:border-gray-400  dark:bg-black">
                   <item.icon />
                 </div>
                 <h3 className="mt-4 text-2xl font-bold text-gray-900 dark:text-white/95 sm:text-3xl">
