@@ -1,3 +1,4 @@
+"use server";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { createSessionClient, getUserData } from "@/lib/server/appwrite";
@@ -7,7 +8,7 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import { LogOut } from "lucide-react";
 
-export async function NavBar() {
+export async function NavBar({ className }: { className?: string }) {
   const user = await getUserData();
 
   async function signOut() {
@@ -19,7 +20,7 @@ export async function NavBar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-background/80 backdrop-blur-lg ">
+    <header className={cn("sticky top-0 z-50 w-full bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 backdrop-blur-lg", className)}>
       <div className="container flex h-16 items-center justify-between py-6 mx-auto">
         <Link href="/" className="flex items-center space-x-2">
           <Image

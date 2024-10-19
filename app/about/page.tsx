@@ -1,13 +1,13 @@
 import { SiteFooter } from "../components/home/Footer";
 import { NavBar } from "../components/home/Navbar";
-import AboutPage from "../components/AboutUs/AboutPage";
+import AboutUs from "../components/AboutUs/AboutUs";
 const page = () => {
   return (
     <div>
       <NavBar />
-      <AboutPage />
+      <AboutUs />
       <SiteFooter />
-  
+
     </div>
   );
 };

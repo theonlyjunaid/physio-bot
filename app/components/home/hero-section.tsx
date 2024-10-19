@@ -1,62 +1,88 @@
+import * as React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Activity, Brain, MessageCircle } from "lucide-react";
 
-const HeroSection = () => {
-  return (
-    <section className="flex  justify-center">
-      <div className="flex max-w-[64rem] flex-col items-center gap-5  text-center">
-        <h1
-          className="animate-fade-up text-balance font-custom text-4xl font-extrabold tracking-tight  sm:text-5xl md:mt-12 md:text-6xl lg:text-7xl"
-          style={{
-            animationDelay: "0.25s",
-            animationFillMode: "forwards",
-          }}
-        >
-          When You Move Better <br />
-          <span className="text-gradient_indigo-purple font-extrabold">
-            You Live Better
-          </span>
-        </h1>
-        <div
-          className="animate-fade-up "
-          style={{ animationDelay: "0.3s", animationFillMode: "forwards" }}
-        >
-          <p className="text-base text-gray-700 dark:text-white/85 md:text-lg max-w-[80%] mx-auto font-custom">
-            We help you to move better and live better with our personalized
-            physio guide
+const features = [
+  { icon: Brain, title: "AI-Powered Insights", content: "Our advanced AI analyzes your movement patterns and provides personalized recommendations." },
+  { icon: MessageCircle, title: "24/7 Support", content: "Get instant answers to your questions and concerns, anytime, anywhere." },
+  { icon: Activity, title: "Personalized Programs", content: "Receive tailored exercise programs designed to address your specific needs and goals." },
+];
+
+const steps = [
+  { title: "Sign Up", content: "Create your account and tell us about your movement goals and any concerns." },
+  { title: "Chat with DrPhysio", content: "Interact with our AI chatbot to get personalized advice and exercise recommendations." },
+  { title: "Improve Your Movement", content: "Follow your personalized program and track your progress over time." },
+];
+
+const HeroSection: React.FC = () => (
+  <>
+    <section className="w-full min-h-[92dvh] py-16 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="container px-4 md:px-6">
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none text-blue-600 dark:text-blue-400">
+            Move Better, Live Better
+          </h1>
+          <p className="mx-auto max-w-[700px] text-gray-600 md:text-xl dark:text-gray-300">
+            DrPhysio is your AI-powered physiotherapy assistant, helping you improve your movement and enhance your quality of life.
           </p>
+          <div className="space-x-4 mt-8">
+            <Link href="/signup"><Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">Get Started</Button></Link>
+            <Link href="/#features"><Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-100">Learn More</Button></Link>
+          </div>
         </div>
-
-        <Link
-          href="/dashboard"
-          className="cursor-pointer mx-auto bg-black dark:bg-white border-transparent flex shadow-md box-border select-none hover:opacity-80 items-center gap-2 border px-4 py-2 rounded-[14px] w-fit text-md md:text-lg hover:scale-110 active:scale-90 transition-transform ease-in-out duration-200"
-        >
-          <span className="body-medium font-medium text-white dark:text-black">
-            Start for free
-          </span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="17"
-            fill="none"
-            className="[&amp;>*]:fill-white"
-          >
-            <path
-              fill="#fff"
-              d="M9.471 13.305 14.276 8.5 9.471 3.695l-.942.943 3.195 3.195H2v1.334h9.724l-3.195 3.195.942.943Z"
-            ></path>
-          </svg>
-        </Link>
-
-
       </div>
-
     </section>
-  );
-};
+
+    <section id="features" className="w-full py-16 md:py-24 lg:py-32 bg-white dark:bg-gray-900">
+      <div className="container px-4 md:px-6">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-12 text-gray-900 dark:text-white">Why Choose DrPhysio?</h2>
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {features.map((feature, index) => (
+            <Card key={index} className="border-none shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <CardHeader>
+                <feature.icon className="w-12 h-12 mb-4 text-blue-600" />
+                <CardTitle className="text-xl font-semibold">{feature.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 dark:text-gray-300">{feature.content}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" className="w-full py-16 md:py-24 lg:py-32 bg-gray-50 dark:bg-gray-800">
+      <div className="container px-4 md:px-6">
+        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-center mb-12 text-gray-900 dark:text-white">How It Works</h2>
+        <div className="grid gap-8 lg:grid-cols-3">
+          {steps.map((step, index) => (
+            <div key={index} className="flex flex-col items-center text-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">{index + 1}</div>
+              <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{step.title}</h3>
+              <p className="text-gray-600 dark:text-gray-300">{step.content}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="cta" className="w-full py-16 md:py-24 lg:py-32 bg-blue-600 dark:bg-blue-800">
+      <div className="container px-4 md:px-6">
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-white">Start Your Journey to Better Movement</h2>
+          <p className="mx-auto max-w-[600px] text-blue-100 md:text-lg">
+            Join thousands of users who have improved their quality of life with DrPhysio. Sign up today and take the first step towards moving better and living better.
+          </p>
+          <Button size="lg" className="mt-8 bg-white text-blue-600 hover:bg-blue-50">Get Started Now</Button>
+        </div>
+      </div>
+    </section>
+  </>
+);
 
 export default HeroSection;

@@ -1,54 +1,73 @@
-"use client";
-import { Container } from '@/components/ui/container';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
-import { useEffect } from 'react';
-
-const sections = [
-  { id: 'introduction', title: 'Introduction', content: 'This Privacy Policy outlines how BridgeIn collects, uses, and protects your personal data. Your privacy is important to us, and we are committed to safeguarding your information.' },
-  { id: 'data-collection', title: 'Data Collection', content: 'We collect various types of information, including data you provide directly, data collected automatically, and data from third-party sources. This may include your name, email address, usage data, and more.' },
-  { id: 'data-use', title: 'How We Use Your Data', content: 'Your data is used to improve our services, provide personalized experiences, communicate with you, and ensure security. We may also use your data for analytics and marketing purposes.' },
-  { id: 'data-sharing', title: 'Data Sharing', content: 'BridgeIn does not share your personal data with third parties, except as required by law or as necessary to provide our services. We ensure that any data shared is protected and used responsibly.' },
-  { id: 'your-rights', title: 'Your Rights', content: 'You have the right to access, correct, or delete your personal data. You can also object to data processing or request data portability. Contact us if you wish to exercise these rights.' },
-  { id: 'cookies', title: 'Cookies Policy', content: 'BridgeIn uses cookies to enhance your experience on our platform. You can manage your cookie preferences through your browser settings. Some cookies are essential for the functioning of the site.' },
-  { id: 'changes', title: 'Changes to This Policy', content: 'We may update this Privacy Policy from time to time. Any changes will be posted on this page, and significant updates will be communicated to you directly if applicable.' },
-];
-
-export default function PrivacyPolicy() {
-  useEffect(() => {
-    AOS.init({
-      duration: 1000, 
-      once: true, 
-    });
-  }, []);
-
+const PrivacyPolicy = () => {
   return (
-    <Container>
-      <div className="py-20"> 
-        {/* Page Title */}
-        <h1 className="text-5xl font-bold mb-10 text-center text-gray-900" data-aos="fade-down">
+    <div className="min-h-screen py-12 px-6 transition duration-300">
+      <div className="max-w-5xl mx-auto p-10">
+        {/* Privacy Policy Heading */}
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
           Privacy Policy
         </h1>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+          At <span className="font-semibold text-gray-900 dark:text-white">DrPhysio</span>, we value your privacy and are committed to protecting the personal information you provide when using our AI-driven physiotherapy chatbot. This Privacy Policy explains how we collect, use, and share your data.
+        </p>
 
-        {/* Privacy Policy Sections */}
-        <div className="space-y-10">
-          {sections.map((section) => (
-            <section key={section.id} id={section.id} className="relative pl-4">
-              <div
-                className="absolute left-0 top-0 h-full w-1 bg-gray-600"
-                data-aos="fade-in"
-                data-aos-duration="1200"
-              ></div>
-              <h2 className="text-3xl font-semibold mb-4 text-gray-800" data-aos="fade-up">
-                {section.title}
-              </h2>
-              <p className="text-lg leading-relaxed text-gray-700" data-aos="fade-up" data-aos-delay="100">
-                {section.content}
-              </p>
-            </section>
-          ))}
-        </div>
+        {/* Section 1: Information Collection */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          1. Information We Collect
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          We collect personal information that you voluntarily provide when using the DrPhysio chatbot. This may include your name, email address, health-related details, and preferences for physiotherapy guidance. Additionally, we may collect data about your interactions with the chatbot, such as queries and conversation history.
+        </p>
+
+        {/* Section 2: How We Use Your Information */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          2. How We Use Your Information
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          The information we collect is used to personalize your experience on DrPhysio, providing you with tailored physiotherapy recommendations and resources. We also use your data to improve the performance of our chatbot and ensure it can make accurate suggestions based on your health needs.
+        </p>
+
+        {/* Section 3: Data Sharing */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          3. Data Sharing and Disclosure
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          We do not sell, trade, or rent your personal information to third parties. We may share your data with trusted healthcare partners only when necessary to connect you with the most suitable physiotherapy resources. All such partners are obligated to protect your data in compliance with this Privacy Policy.
+        </p>
+
+        {/* Section 4: Data Security */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          4. Data Security
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          We implement a variety of security measures to safeguard your personal data. Despite our efforts, no method of transmission over the internet is 100% secure. Therefore, while we strive to protect your information, we cannot guarantee its absolute security.
+        </p>
+
+        {/* Section 5: Your Rights */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          5. Your Rights
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          You have the right to access, update, or delete your personal information at any time. If you wish to exercise any of these rights, please contact us at <a href="mailto:support@drphysio.com" className="text-indigo-600 dark:text-indigo-400">support@drphysio.com</a>. We will respond to your request promptly.
+        </p>
+
+        {/* Section 6: Changes to This Policy */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          6. Changes to This Privacy Policy
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          We may update this Privacy Policy from time to time to reflect changes in our practices or for other operational, legal, or regulatory reasons. Any changes will be posted on this page, and we encourage you to review it periodically.
+        </p>
+
+        {/* Section 7: Contact Us */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          7. Contact Us
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+          If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:support@drphysio.com" className="text-indigo-600 dark:text-indigo-400">support@drphysio.com</a>.
+        </p>
       </div>
-    </Container>
+    </div>
   );
-}
+};
+
+export default PrivacyPolicy;

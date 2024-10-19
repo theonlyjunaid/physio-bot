@@ -1,102 +1,39 @@
-"use client";
-import React from "react";
-import * as Tooltip from "@radix-ui/react-tooltip";
-import { motion } from "framer-motion";
+import { Building, Mail, PhoneCall } from 'lucide-react';
+import React from 'react';
 
-const contacts = [
-  {
-    platform: "Instagram",
-    icon: "fab fa-instagram",
-    contact: "@Bridge-In",
-    description: "Follow us on Instagram for the latest updates!",
-  },
-  {
-    platform: "Mobile",
-    icon: "fas fa-phone",
-    contact: "+91 123 456 7890",
-    description: "Give us a call for any inquiries.",
-  },
-  {
-    platform: "Email",
-    icon: "fas fa-envelope",
-    contact: "bridge-in@gmail.com",
-    description: "Send us an email with your questions.",
-  },
-  {
-    platform: "Twitter",
-    icon: "fab fa-twitter",
-    contact: "@bridgeintwitter",
-    description: "Tweet us for quick responses!",
-  },
-];
-
-const Contact = () => {
+const ContactUs = () => {
   return (
-    <div className=" py-16 px-4 sm:px-6 lg:px-8">
-      {/* Header Section */}
-      <div className="max-w-3xl mx-auto text-center mb-16">
-        <h1 className="text-4xl font-bold text-gray-800">Get in Touch</h1>
-        <p className="mt-4 text-lg text-gray-600">
-          We're here to help! Reach out to us through any of the platforms
-          below.
+    <div className="min-h-[70vh] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl w-full rounded-lg p-8 lg:p-12">
+        <h1 className="text-4xl font-bold mb-6 text-gray-800 dark:text-gray-200 text-center">Contact DrPhysio</h1>
+        <p className="text-center text-gray-600 dark:text-gray-300 mb-8">
+          We are here to help you improve your physical health! Reach out through the details below, and our team will get back to you as soon as possible.
         </p>
-      </div>
 
-      {/* Contact Cards Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        {contacts.map((contact, index) => (
-          <Tooltip.Provider key={index}>
-            <Tooltip.Root>
-              <Tooltip.Trigger asChild>
-                <motion.div
-                  className="bg-white shadow-lg rounded-lg p-6 text-center cursor-pointer transition-transform transform hover:scale-105"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <div className="text-4xl text-blue-500 mb-4">
-                    <i className={contact.icon}></i>
-                  </div>
-                  <h4 className="text-xl font-semibold mb-2 text-gray-900">
-                    {contact.platform}
-                  </h4>
-                  <p className="text-sm text-gray-700">{contact.contact}</p>
-                </motion.div>
-              </Tooltip.Trigger>
-              <Tooltip.Content
-                className="p-4 bg-white text-black rounded-lg shadow-lg max-w-xs z-50"
-                sideOffset={5}
-              >
-                <div>
-                  <h4 className="text-lg font-semibold">
-                    {contact.platform}
-                  </h4>
-                  <p className="mt-2 text-sm">{contact.description}</p>
-                </div>
-                <Tooltip.Arrow className="fill-white" />
-              </Tooltip.Content>
-            </Tooltip.Root>
-          </Tooltip.Provider>
-        ))}
-      </div>
+        <div className="grid grid-cols-1  gap-8 mt-5">
+          {/* Address */}
+          {/* <div className="flex flex-col items-center">
+                        <Building size={32} />
+                        <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200">Our Office</h2>
+                        <p className="text-gray-600 dark:text-gray-300 text-center">DTU-IIF, AB-4, 8th floor, Bawana Rd, Delhi Technological University, Shahbad Daulatpur Village, Rohini, New Delhi, Delhi, 110042</p>
+                    </div>
 
-      {/* Footer Section */}
-      <div className="max-w-3xl mx-auto text-center mt-16">
-        <h2 className="text-2xl font-bold text-gray-800">
-          We'd love to hear from you
-        </h2>
-        <p className="mt-4 text-lg text-gray-600">
-          Whether you have a question about features, trials, pricing, need a
-          demo, or anything else, our team is ready to answer all your
-          questions.
-        </p>
-        <div className="mt-8">
-          <button className="px-8 py-2 text-white bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg hover:from-blue-600 hover:to-blue-700 transition-transform transform hover:scale-105">
-            Contact Support
-          </button>
+          <div className="flex flex-col items-center">
+            <PhoneCall size={32} />
+            <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200">Phone</h2>
+            <p className="text-gray-600 dark:text-gray-300 text-center">+91 85284 28983</p>
+          </div> */}
+
+          {/* Email */}
+          <div className="flex flex-col items-center">
+            <Mail size={32} />
+            <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200">Email</h2>
+            <p className="text-gray-600 dark:text-gray-300 text-center">support@drphysio.com</p>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Contact;
+export default ContactUs;

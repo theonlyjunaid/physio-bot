@@ -1,66 +1,81 @@
-import { Container } from '@/components/ui/container';
-
-export default function TermsAndConditions() {
+const TermsAndConditions = () => {
   return (
-    <Container>
-      <div className="py-20">
-        {/* Page Title */}
-        <h1 className="text-5xl font-bold mb-10 text-center text-gray-900">
+    <div className="min-h-screen py-12 px-6 transition duration-300">
+      <div className="max-w-5xl mx-auto p-10">
+        {/* Terms and Conditions Heading */}
+        <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
           Terms and Conditions
         </h1>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+          Welcome to <span className="font-semibold text-gray-900 dark:text-white">DrPhysio</span>. By using our platform, you agree to comply with and be bound by the following terms and conditions. Please review them carefully before using our services.
+        </p>
 
-        {/* Terms and Conditions Content */}
-        <div className="space-y-10">
-          <section id="introduction" className="border-l-4 border-gray-500 pl-4">
-            <h2 className="text-3xl font-semibold mb-4 text-gray-800">Introduction</h2>
-            <p className="text-lg leading-relaxed text-gray-600">
-              Your use of our platform is governed by the following terms and conditions ("Terms of Use"), as well as the Bridge In Privacy Policy and other operating rules, minimum qualifications, and cautions posted throughout the platform or presented to you individually during the course of your use of the platform (collectively, the "Terms"). The Terms govern your use of the platform and Bridge In reserves the right to update or replace the Terms at any time without notice. You are advised to review the Terms for any changes when you visit the platform even if you have not received a notification of changes as you are bound by them even if you have not reviewed them. Your viewing and use of the platform after such change constitutes your acceptance of the Terms and any changes to such terms. If at any time you do not want to be bound by the Terms, you should logout, exit, and cease using the platform immediately.
-            </p>
-          </section>
+        {/* Section 1: Use of the Platform */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          1. Use of the Platform
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          DrPhysio is designed to assist users in improving their physical health through personalized physiotherapy guidance. By using the platform, you agree to use it only for lawful purposes. You must not use DrPhysio in any way that may cause harm to the platform or its users.
+        </p>
 
-          <section id="intended-use" className="border-l-4 border-gray-500 pl-4">
-            <h2 className="text-3xl font-semibold mb-4 text-gray-800">Intended Use of Platform</h2>
-            <p className="text-lg leading-relaxed text-gray-600">
-              Bridge In is a platform designed to connect startups with potential investors, mentors, and other resources. Bridge In does not offer, broker, advise, purchase, sell, or otherwise transact in securities regulated by the SEC or federal or state law. Bridge In does not accept, hold, or transfer cash or securities.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-600">
-              Bridge In does not guarantee that a startup seeking support will achieve any level of success or that any proposed offering or funding request will qualify under applicable federal and state securities laws.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-600">
-              Bridge In is not a personal financial advisor. Bridge In, whether through the platform or otherwise, does not provide personal financial advice, loans, credit, banking, consumer credit ratings, credit decisions, financial products, brokerage accounts, insurance, tax advice, legal advice, or financial or legal services of any kind.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-600">
-              Bridge In does not guarantee any results to anyone. All users of the platform are responsible for making their own decisions to use the platform and for any activity taken on the platform, including without limitation registering, seeking funding, grants, or other support.
-            </p>
-          </section>
+        {/* Section 2: Account Registration */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          2. Account Registration
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          To access certain features of DrPhysio, you may need to register for an account. You agree to provide accurate and complete information during registration and to keep your account information updated. You are responsible for maintaining the confidentiality of your account login details.
+        </p>
 
-          <section id="user-registration" className="border-l-4 border-gray-500 pl-4">
-            <h2 className="text-3xl font-semibold mb-4 text-gray-800">User Registration</h2>
-            <p className="text-lg leading-relaxed text-gray-600">
-              If you are accepting the Terms on behalf of an organization or entity, rather than in an individual capacity, you represent and warrant that you are authorized to accept the Terms on that organization or entity's behalf and bind them to these Terms.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-600">
-              Only real persons at or above the age of 18 may register for an account and use the platform. Registering for an account on the platform creates no commitment or obligation on the registered user to seek or provide funding, grants, or other support.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-600">
-              Bridge In may reject any application to register an individual or an organization or entity for failure to achieve validation through available methods or otherwise meet Bridge In's registration requirements.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-600">
-              Your registration and the use of any third-party site is subject to the terms and conditions and policies of such sites, and Bridge In is not responsible or liable for any harm resulting from the use or misuse of those sites, including when such harm could or does affect your account on this platform or your use of the platform.
-            </p>
-          </section>
+        {/* Section 3: Intellectual Property */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          3. Intellectual Property
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          All content on DrPhysio, including but not limited to text, graphics, logos, and software, is the property of DrPhysio or its licensors and is protected by intellectual property laws. You may not reproduce, distribute, or create derivative works of any content without our prior written consent.
+        </p>
 
-          <section id="registered-account-obligations" className="border-l-4 border-gray-500 pl-4">
-            <h2 className="text-3xl font-semibold mb-4 text-gray-800">Registered Account Obligations</h2>
-            <p className="text-lg leading-relaxed text-gray-600">
-              The named registered user of an account is the only person that may use the account, and it may not be transferred to anyone else.
-            </p>
-            <p className="text-lg leading-relaxed text-gray-600">
-              You are responsible for maintaining the confidentiality of your registered account and to periodically change your password to maintain security. If you have concerns that your username and/or password have been compromised or that unauthorized access to your account or the platform is likely or has already occurred, you must notify Bridge In immediately. Bridge In is not responsible for any unauthorized access or misuse of your registered account resulting from your failure to maintain the confidentiality of your login credentials.
-            </p>
-          </section>
-        </div>
+        {/* Section 4: Limitation of Liability */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          4. Limitation of Liability
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          DrPhysio provides the platform "as is" without any warranties of any kind. We do not guarantee the accuracy, reliability, or availability of the physiotherapy guidance provided by the platform. DrPhysio will not be liable for any damages arising from the use or inability to use the platform.
+        </p>
+
+        {/* Section 5: Termination */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          5. Termination
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          We reserve the right to terminate or suspend your access to DrPhysio at any time, without notice, for conduct that we believe violates these Terms and Conditions or is harmful to our users or the platform.
+        </p>
+
+        {/* Section 6: Changes to Terms */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          6. Changes to These Terms
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          We may update these Terms and Conditions from time to time. Any changes will be posted on this page. By continuing to use DrPhysio after changes are made, you agree to the revised terms.
+        </p>
+
+        {/* Section 7: Governing Law */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          7. Governing Law
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
+          These Terms and Conditions are governed by and construed in accordance with the laws of India. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts of India.
+        </p>
+
+        {/* Section 8: Contact Us */}
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-4">
+          8. Contact Us
+        </h2>
+        <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
+          If you have any questions about these Terms and Conditions, please contact us at <a href="mailto:support@drphysio.com" className="text-indigo-600 dark:text-indigo-400">support@drphysio.com</a>.
+        </p>
       </div>
-    </Container>
+    </div>
   );
-}
+};
+
+export default TermsAndConditions;

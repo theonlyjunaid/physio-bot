@@ -9,14 +9,15 @@ import { SiteFooter } from "./components/home/Footer";
 
 export default async function Home() {
   // if (!user) redirect("/signup");
+  const user = await getLoggedInUser();
+  if (user) redirect("/dashboard");
 
   // redirect("/account");
   return (
     <div className="flex min-h-screen flex-col">
       <NavBar />
       <HeroSection />
-      <HowToGetStarted />
-      <FAQs />
+      {/* <HowToGetStarted /> */}
       <SiteFooter />
     </div>
   );

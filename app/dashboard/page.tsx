@@ -13,9 +13,12 @@ const DashboardPage = async () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen ">
+    <div className="flex flex-col min-h-screen w-full bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <NavBar />
-      <main className="flex-grow">
+      <main className="flex-grow container mx-auto px-4 py-8 md:py-16">
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl text-blue-600 dark:text-blue-400 mb-8">
+          Welcome to Your Dashboard
+        </h1>
         <Dashboard user={user} />
       </main>
       <SiteFooter />

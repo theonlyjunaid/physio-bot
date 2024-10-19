@@ -375,7 +375,7 @@ const Chat = ({
 
           < form
             onSubmit={handleSubmit}
-            className="p-4 border-t flex-col gap-2  bottom-0 fixed w-full z-10  md:w-[55%] bg-white dark:bg-black"
+            className="p-4 border-t flex-col gap-2  bottom-0 fixed w-full z-10  md:w-[55%] bg-white dark:bg-gray-800"
           >
             <div className="flex gap-2">
               <Input
