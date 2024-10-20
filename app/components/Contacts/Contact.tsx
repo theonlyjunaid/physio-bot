@@ -28,7 +28,8 @@ const ContactUs = () => {
           <div className="flex flex-col items-center">
             <Mail size={32} />
             <h2 className="font-semibold text-xl text-gray-800 dark:text-gray-200">Email</h2>
-            <p className="text-gray-600 dark:text-gray-300 text-center">support@drphysio.com</p>
+            <p className="text-gray-600 dark:text-gray-300 text-center">drphysiogpt@gmail.com
+            </p>
           </div>
         </div>
       </div>
