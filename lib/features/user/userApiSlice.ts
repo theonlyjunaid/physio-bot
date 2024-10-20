@@ -6,7 +6,6 @@ export interface UserSliceState {
     user: Iuser;
     status: "idle" | "loading" | "failed";
 }
-
 const user: Iuser = {
     userId: "",
     email: "",
@@ -17,13 +16,13 @@ const user: Iuser = {
     $updatedAt: "",
     $tenant: "",
     is_onboarded: false,
-    plan: "",
-    city: null,
-    organisation: null,
-    dob: null,
-    designation: null,
+    city: "",
+    gender: "",
+    occupation: "",
+    age: "",
+    conversations: [],
     $databaseId: "",
-    $collectionId: "",
+    $collectionId: ""
 }
 
 const initialState: UserSliceState = {

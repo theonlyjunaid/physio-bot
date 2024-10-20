@@ -73,7 +73,7 @@ export function AccountForm({ user }: { user: Iuser | null }) {
     resolver: zodResolver(accountFormSchema),
     defaultValues: {
       name: user?.name,
-      dob: new Date(user?.dob ?? ""),
+      dob: new Date(user?.age ?? ""),
     },
   });
 
@@ -171,8 +171,8 @@ export function AccountForm({ user }: { user: Iuser | null }) {
                     >
                       {field.value
                         ? languages.find(
-                            (language) => language.value === field.value
-                          )?.label
+                          (language) => language.value === field.value
+                        )?.label
                         : "Select language"}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
