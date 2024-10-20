@@ -22,7 +22,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           <div className="space-y-4">
             <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Legal</h4>
             <ul className="space-y-2">
-              <li><Link className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="/terms-and-conditions">Terms of Service</Link></li>
+              <li><Link className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="/terms-and-condition">Terms of Service</Link></li>
               <li><Link className="text-sm text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400" href="/privacy-policy">Privacy Policy</Link></li>
             </ul>
           </div>

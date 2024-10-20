@@ -107,12 +107,20 @@ const AssessmentInfo = ({ assessment }: { assessment: Assisment }) => {
                     </AccordionItem>
                 </Accordion>
             </div>
-            <div className="flex flex-col p-4 space-y-4 md:hidden">
+            <div className="flex flex-col p-4 pb-0 space-y-4 md:hidden">
+                <div className="flex items-center justify-between w-full">
+                    <Link href="/dashboard">
+                        <Button variant="outline" className="flex items-center justify-center w-12 h-12">
+                            <ArrowLeft className="h-10 w-10" />
+                        </Button>
+                    </Link>
+                    <h2 className="text-lg font-semibold">Assessment Details</h2>
+                </div>
                 <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value="assessment-details">
-                        <AccordionTrigger>Assessment Details</AccordionTrigger>
+                        <AccordionTrigger className="text-left">View Assessment Details</AccordionTrigger>
                         <AccordionContent>
-                            <div className="grid grid-cols-1 gap-4">
+                            <div className="grid grid-cols-1 gap-4 mt-2">
                                 <InfoItem label="Name:" value={assessment.name} />
                                 <InfoItem label="Age:" value={assessment.age} />
                                 <InfoItem label="Gender:" value={assessment.gender} />

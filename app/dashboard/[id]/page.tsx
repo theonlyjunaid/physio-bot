@@ -26,12 +26,12 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <div className="">
-      <NavBar className="bg-white" />
+      {/* <NavBar className="bg-white" /> */}
       <main className="flex flex-col md:flex-row  justify-center items-center ">
         <div className="md:mr-auto w-full  md:w-[45%]  md:h-[90dvh] md:px-7  ">
           <AssessmentInfo assessment={convos} />
         </div>
-        <div className=" md:ml-auto w-full  md:w-[55%] h-[83dvh] md:h-[90dvh] md:border-l ">
+        <div className=" md:ml-auto w-full  md:w-[55%] h-[80dvh] md:h-[100dvh] md:border-l ">
           <Chat threadId={convos.threadId} assisment={convos} user={user} />
         </div>
       </main>

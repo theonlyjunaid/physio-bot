@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -25,11 +25,33 @@ import { useRouter } from "next/navigation";
 import { Iuser } from "@/lib/types/types";
 import { createAssisment } from "@/lib/server/appwrite";
 import { Loader2 } from "lucide-react";
+import { MultiSelect } from "react-multi-select-component";
 
 const Assignment = ({ user }: { user: Iuser }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const [locationOfPain, setLocationOfPain] = useState<{
+    label: string,
+    value: string
+  }[]>([]);
+  const [customerProblem, setCustomerProblem] = useState<{
+    label: string,
+    value: string
+  }[]>([]);
+  const [painIncreasesWhen, setPainIncreasesWhen] = useState<{
+    label: string,
+    value: string
+  }[]>([]);
+  const [preExistingCondition, setPreExistingCondition] = useState<{
+    label: string,
+    value: string
+  }[]>([]);
+  const [symptomExperienced, setSymptomExperienced] = useState<{
+    label: string,
+    value: string
+  }[]>([]);
 
   const [assisment, setAssisment] = useState({
     for: "",
@@ -130,6 +152,86 @@ const Assignment = ({ user }: { user: Iuser }) => {
     setAssisment(prev => ({ ...prev, [field]: value }));
     validateField(field, value);
   };
+  useEffect(() => {
+
+    setAssisment(prev => ({
+      ...prev,
+      locationOfPain: locationOfPain.map(item => item.value),
+      customerProblem: customerProblem.map(item => item.value),
+      painIncreasesWhen: painIncreasesWhen.map(item => item.value),
+      preExistingCondition: preExistingCondition.map(item => item.value),
+      symptomExperienced: symptomExperienced.map(item => item.value)
+    }));
+  }, [locationOfPain, customerProblem, painIncreasesWhen, preExistingCondition, symptomExperienced])
+
+  const locationOfPainOptions = [
+    { label: "Neck", value: "neck" },
+    { label: "Shoulder", value: "shoulder" },
+    { label: "Arm", value: "arm" },
+    { label: "Elbow", value: "elbow" },
+    { label: "Wrist", value: "wrist" },
+    { label: "Hand", value: "hand" },
+    { label: "Upper Back", value: "upper back" },
+    { label: "Lower Back", value: "lower back" },
+    { label: "Hip", value: "hip" },
+    { label: "Thigh", value: "thigh" },
+    { label: "Knee", value: "knee" },
+    { label: "Shin Calf", value: "shin calf" },
+    { label: "Ankle", value: "ankle" },
+    { label: "Foot", value: "foot" },
+    { label: "Other", value: "other" }
+  ];
+  const customerProblemOptions = [
+    { label: "Difficulty walking", value: "difficulty walking" },
+    { label: "Difficulty standing", value: "difficulty standing" },
+    { label: "Difficulty sitting", value: "difficulty sitting" },
+    { label: "Difficulty sleeping", value: "difficulty sleeping" },
+    { label: "Difficulty lifting objects", value: "difficulty lifting objects" },
+    { label: "Difficulty bending", value: "difficulty bending" },
+    { label: "Difficulty reaching", value: "difficulty reaching" },
+    { label: "General weakness", value: "general weakness" },
+    { label: "Limited range of motion", value: "limited range of motion" },
+    { label: "Other", value: "other" }
+  ];
+
+  const painIncreasesWhenOptions = [
+    { label: "During any activity", value: "during any activity" },
+    { label: "When moving", value: "when moving" },
+    { label: "During rest", value: "during rest" },
+    { label: "During exercise", value: "during exercise" },
+    { label: "During sleep", value: "during sleep" },
+    { label: "At night", value: "at night" },
+    { label: "In the morning", value: "in the morning" },
+    { label: "During both activity and rest", value: "during both activity and rest" },
+    { label: "With specific movements", value: "with specific movements" }
+  ];
+
+  const preExistingConditionOptions = [
+    { label: "Diabetes", value: "diabetes" },
+    { label: "Hypertension", value: "hypertension" },
+    { label: "High Blood Pressure", value: "high blood pressure" },
+    { label: "Obesity", value: "obesity" },
+    { label: "Asthma", value: "asthma" },
+    { label: "Arthritis", value: "arthritis" },
+    { label: "Cancer", value: "cancer" },
+    { label: "Heart Disease", value: "heart disease" },
+    { label: "Kidney Disease", value: "kidney disease" },
+    { label: "Other", value: "other" }
+  ];
+
+  const symptomExperiencedOptions = [
+    { label: "Swelling", value: "swelling" },
+    { label: "Functional reduction during movement", value: "functional reduction during movement" },
+    { label: "Clicking sound from joint", value: "clicking sound from joint" },
+    { label: "Locking or catching sensation in joint", value: "locking or catching sensation in joint" },
+    { label: "Redness", value: "redness" },
+    { label: "Warmth", value: "warmth" },
+    { label: "Bruising", value: "bruising" },
+    { label: "Numbness", value: "numbness" },
+    { label: "Weakness", value: "weakness" },
+    { label: "Other", value: "other" }
+  ];
+
 
   return (
     <div>
@@ -312,7 +414,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <Label htmlFor="locationOfPain" className="mb-1">
               Location of pain{" "}
             </Label>
-            <Select
+            {/* <Select
               onValueChange={(value) => handleMultiSelectChange("locationOfPain", value.split(','))}
               value={assisment.locationOfPain.join(',')}
             >
@@ -324,7 +426,14 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   <SelectItem key={location} value={location}>{location}</SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
+            <MultiSelect
+              options={locationOfPainOptions}
+              value={locationOfPain}
+              onChange={setLocationOfPain}
+              labelledBy="Select Locations Of Pain"
+              className="col-span-3 max-h-[20vh]"
+            />
             {errors.locationOfPain && <p className="text-red-500 text-sm">{errors.locationOfPain}</p>}
 
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
@@ -414,7 +523,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 <Label htmlFor="customerProblem" className="mb-1">
                   Customer Problem
                 </Label>
-                <Select
+                {/* <Select
                   onValueChange={(value) => handleMultiSelectChange("customerProblem", value.split(','))}
                   value={assisment.customerProblem.join(',')}
                 >
@@ -426,7 +535,14 @@ const Assignment = ({ user }: { user: Iuser }) => {
                       <SelectItem key={problem} value={problem}>{problem}</SelectItem>
                     ))}
                   </SelectContent>
-                </Select>
+                </Select> */}
+                <MultiSelect
+                  options={customerProblemOptions}
+                  value={customerProblem}
+                  onChange={setCustomerProblem}
+                  labelledBy="Select Experienced Problems"
+                  className="col-span-3 max-h-[20vh]"
+                />
                 {errors.customerProblem && <p className="text-red-500 text-sm">{errors.customerProblem}</p>}
               </div>
             </div>
@@ -478,7 +594,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <Label htmlFor="painIncreasesWhen" className="mb-1">
               When Pain Increases{" "}
             </Label>
-            <Select
+            {/* <Select
               onValueChange={(value) => handleMultiSelectChange("painIncreasesWhen", value.split(','))}
               value={assisment.painIncreasesWhen.join(',')}
             >
@@ -490,7 +606,14 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   <SelectItem key={condition} value={condition}>{condition}</SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
+            <MultiSelect
+              options={painIncreasesWhenOptions}
+              value={painIncreasesWhen}
+              onChange={setPainIncreasesWhen}
+              labelledBy="Select Locations Of Pain"
+              className="col-span-3 max-h-[20vh]"
+            />
             {errors.painIncreasesWhen && <p className="text-red-500 text-sm">{errors.painIncreasesWhen}</p>}
 
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
@@ -611,7 +734,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <Label htmlFor="preExistingCondition" className="mb-1">
               Pre Existing Conditions{" "}
             </Label>
-            <Select
+            {/* <Select
               onValueChange={(value) => handleMultiSelectChange("preExistingCondition", value.split(','))}
               value={assisment.preExistingCondition.join(',')}
             >
@@ -623,7 +746,14 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   <SelectItem key={condition} value={condition}>{condition}</SelectItem>
                 ))}
               </SelectContent>
-            </Select>
+            </Select> */}
+            <MultiSelect
+              options={preExistingConditionOptions}
+              value={preExistingCondition}
+              onChange={setPreExistingCondition}
+              labelledBy="Select Experienced Problems"
+              className="col-span-3 max-h-[20vh]"
+            />
             {errors.preExistingCondition && <p className="text-red-500 text-sm">{errors.preExistingCondition}</p>}
 
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
@@ -655,7 +785,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 <Label htmlFor="symptomExperienced" className="mb-1">
                   Symptom Experienced{" "}
                 </Label>
-                <Select
+                {/* <Select
                   onValueChange={(value) => handleMultiSelectChange("symptomExperienced", value.split(','))}
                   value={assisment.symptomExperienced.join(',')}
                 >
@@ -667,7 +797,14 @@ const Assignment = ({ user }: { user: Iuser }) => {
                       <SelectItem key={symptom} value={symptom}>{symptom}</SelectItem>
                     ))}
                   </SelectContent>
-                </Select>
+                </Select> */}
+                <MultiSelect
+                  options={symptomExperiencedOptions}
+                  value={symptomExperienced}
+                  onChange={setSymptomExperienced}
+                  labelledBy="Select Experienced Problems"
+                  className="col-span-3 max-h-[20vh]"
+                />
                 {errors.symptomExperienced && <p className="text-red-500 text-sm">{errors.symptomExperienced}</p>}
               </div>
             </div>
