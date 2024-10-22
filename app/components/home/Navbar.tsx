@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import { LogOut } from "lucide-react";
+import Script from "next/script";
 
 export async function NavBar({ className }: { className?: string }) {
   const user = await getUserData();
@@ -21,6 +22,14 @@ export async function NavBar({ className }: { className?: string }) {
 
   return (
     <header className={cn("sticky top-0 z-50 w-full bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 backdrop-blur-lg", className)}>
+      <Script id="google-analytics">
+        {` window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments)}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZP6BCLZZ2H');`}
+      </Script>
+      <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZP6BCLZZ2H" />
       <div className="container flex h-16 items-center justify-between py-6 mx-auto">
         <Link href="/" className="flex items-center space-x-2">
           <Image
