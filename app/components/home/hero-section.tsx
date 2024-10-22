@@ -23,7 +23,7 @@ const HeroSection: React.FC = () => (
     <section className="w-full min-h-[92dvh]  bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0 md:space-x-8">
-          <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left md:w-1/2">
+          <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left pt-10 md:pt-0 md:w-1/2">
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none text-blue-600 dark:text-blue-400">
               Move Better, Live Better
             </h1>
