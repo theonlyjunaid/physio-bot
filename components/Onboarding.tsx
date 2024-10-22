@@ -12,6 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Loader2 } from "lucide-react";
 export function Onboarding({
   onboardUserToDB,
 }: {
@@ -34,10 +35,13 @@ export function Onboarding({
     occupation: "",
   });
 
+  const [isLoading, setIsLoading] = useState(false); // Added state for loading
+
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true); // Set loading to true when form is submitted
 
     try {
       const { age, gender, occupation, city } = formData;
@@ -46,6 +50,8 @@ export function Onboarding({
       router.push("/dashboard");
     } catch (error) {
       console.error("Failed to onboard user", error);
+    } finally {
+      setIsLoading(false); // Set loading to false when function completes
     }
   };
 
@@ -160,8 +166,17 @@ export function Onboarding({
             </div>
           </div>
           <div className="mt-2">
-            <Button type="submit" className="px-8 w-full">
-              Let{"'"}s Go
+            <Button
+              type="submit"
+              className="px-8 w-full"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <Loader2 className="animate-spin mr-2" />
+              ) : (
+                ""
+              )}
+              Let's Go
             </Button>
           </div>
         </form>

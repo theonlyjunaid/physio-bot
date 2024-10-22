@@ -1,6 +1,6 @@
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen py-12 px-6 transition duration-300">
+    <div className="min-h-screen py-12 px-6 transition duration-300 bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-5xl mx-auto p-10">
         {/* Privacy Policy Heading */}
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
@@ -47,7 +47,7 @@ const PrivacyPolicy = () => {
           5. Your Rights
         </h2>
         <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
-          You have the right to access, update, or delete your personal information at any time. If you wish to exercise any of these rights, please contact us at <a href="mailto:support@drphysio.com" className="text-indigo-600 dark:text-indigo-400">support@drphysio.com</a>. We will respond to your request promptly.
+          You have the right to access, update, or delete your personal information at any time. If you wish to exercise any of these rights, please contact us at <a href="mailto:drphysiogpt@gmail.com" className="text-indigo-600 dark:text-indigo-400">drphysiogpt@gmail.com</a>. We will respond to your request promptly.
         </p>
 
         {/* Section 6: Changes to This Policy */}
@@ -63,7 +63,7 @@ const PrivacyPolicy = () => {
           7. Contact Us
         </h2>
         <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
-          If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:support@drphysio.com" className="text-indigo-600 dark:text-indigo-400">support@drphysio.com</a>.
+          If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:drphysiogpt@gmail.com" className="text-indigo-600 dark:text-indigo-400">drphysiogpt@gmail.com</a>.
         </p>
       </div>
     </div>

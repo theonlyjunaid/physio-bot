@@ -179,7 +179,20 @@ const Assignment = ({ user }: { user: Iuser }) => {
     { label: "Shin Calf", value: "shin calf" },
     { label: "Ankle", value: "ankle" },
     { label: "Foot", value: "foot" },
-    { label: "Other", value: "other" }
+    { label: "Other", value: "other" },
+    { label: "Head", value: "head" },
+    { label: "Face", value: "face" },
+    { label: "Ear", value: "ear" },
+    { label: "Eye", value: "eye" },
+    { label: "Nose", value: "nose" },
+    { label: "Mouth", value: "mouth" },
+    { label: "Throat", value: "throat" },
+    { label: "Chest", value: "chest" },
+    { label: "Abdomen", value: "abdomen" },
+    { label: "Pelvis", value: "pelvis" },
+    { label: "Genitals", value: "genitals" },
+    { label: "Leg", value: "leg" },
+    { label: "Toe", value: "toe" },
   ];
   const customerProblemOptions = [
     { label: "Difficulty walking", value: "difficulty walking" },
@@ -191,7 +204,22 @@ const Assignment = ({ user }: { user: Iuser }) => {
     { label: "Difficulty reaching", value: "difficulty reaching" },
     { label: "General weakness", value: "general weakness" },
     { label: "Limited range of motion", value: "limited range of motion" },
-    { label: "Other", value: "other" }
+    { label: "Fatigue", value: "fatigue" },
+    { label: "Dizziness", value: "dizziness" },
+    { label: "Nausea", value: "nausea" },
+    { label: "Vomiting", value: "vomiting" },
+    { label: "Fever", value: "fever" },
+    { label: "Chills", value: "chills" },
+    { label: "Sweating", value: "sweating" },
+    { label: "Palpitations", value: "palpitations" },
+    { label: "Shortness of breath", value: "shortness of breath" },
+    { label: "Coughing", value: "coughing" },
+    { label: "Chest pain", value: "chest pain" },
+    { label: "Abdominal pain", value: "abdominal pain" },
+    { label: "Diarrhea", value: "diarrhea" },
+    { label: "Constipation", value: "constipation" },
+    { label: "Urinary problems", value: "urinary problems" },
+    { label: "Other", value: "other" },
   ];
 
   const painIncreasesWhenOptions = [
@@ -203,10 +231,18 @@ const Assignment = ({ user }: { user: Iuser }) => {
     { label: "At night", value: "at night" },
     { label: "In the morning", value: "in the morning" },
     { label: "During both activity and rest", value: "during both activity and rest" },
-    { label: "With specific movements", value: "with specific movements" }
+    { label: "With specific movements", value: "with specific movements" },
+    { label: "After eating", value: "after eating" },
+    { label: "After drinking", value: "after drinking" },
+    { label: "After taking medication", value: "after taking medication" },
+    { label: "After exposure to allergens", value: "after exposure to allergens" },
+    { label: "After exposure to cold or heat", value: "after exposure to cold or heat" },
+    { label: "After physical activity", value: "after physical activity" },
+    { label: "After emotional stress", value: "after emotional stress" },
   ];
 
   const preExistingConditionOptions = [
+    { label: "None", value: "None" },
     { label: "Diabetes", value: "diabetes" },
     { label: "Hypertension", value: "hypertension" },
     { label: "High Blood Pressure", value: "high blood pressure" },
@@ -216,7 +252,21 @@ const Assignment = ({ user }: { user: Iuser }) => {
     { label: "Cancer", value: "cancer" },
     { label: "Heart Disease", value: "heart disease" },
     { label: "Kidney Disease", value: "kidney disease" },
-    { label: "Other", value: "other" }
+    { label: "Other", value: "other" },
+    { label: "Alzheimer's disease", value: "alzheimer's disease" },
+    { label: "Parkinson's disease", value: "parkinson's disease" },
+    { label: "Multiple sclerosis", value: "multiple sclerosis" },
+    { label: "Lupus", value: "lupus" },
+    { label: "Rheumatoid arthritis", value: "rheumatoid arthritis" },
+    { label: "Osteoporosis", value: "osteoporosis" },
+    { label: "Chronic obstructive pulmonary disease (COPD)", value: "copd" },
+    { label: "Chronic kidney disease", value: "chronic kidney disease" },
+    { label: "Hepatitis", value: "hepatitis" },
+    { label: "HIV/AIDS", value: "hiv/aids" },
+    { label: "Tuberculosis", value: "tuberculosis" },
+    { label: "Sickle cell disease", value: "sickle cell disease" },
+    { label: "Cystic fibrosis", value: "cystic fibrosis" },
+    { label: "Muscular dystrophy", value: "muscular dystrophy" },
   ];
 
   const symptomExperiencedOptions = [
@@ -229,7 +279,24 @@ const Assignment = ({ user }: { user: Iuser }) => {
     { label: "Bruising", value: "bruising" },
     { label: "Numbness", value: "numbness" },
     { label: "Weakness", value: "weakness" },
-    { label: "Other", value: "other" }
+    { label: "Other", value: "other" },
+    { label: "Tingling", value: "tingling" },
+    { label: "Burning sensation", value: "burning sensation" },
+    { label: "Shooting pain", value: "shooting pain" },
+    { label: "Aching", value: "aching" },
+    { label: "Stiffness", value: "stiffness" },
+    { label: "Cramping", value: "cramping" },
+    { label: "Muscle spasms", value: "muscle spasms" },
+    { label: "Tremors", value: "tremors" },
+    { label: "Seizures", value: "seizures" },
+    { label: "Loss of coordination", value: "loss of coordination" },
+    { label: "Loss of balance", value: "loss of balance" },
+    { label: "Vision changes", value: "vision changes" },
+    { label: "Hearing changes", value: "hearing changes" },
+    { label: "Speech changes", value: "speech changes" },
+    { label: "Memory changes", value: "memory changes" },
+    { label: "Mood changes", value: "mood changes" },
+    { label: "Personality changes", value: "personality changes" },
   ];
 
 

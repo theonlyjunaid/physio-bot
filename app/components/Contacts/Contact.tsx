@@ -3,7 +3,7 @@ import React from 'react';
 
 const ContactUs = () => {
   return (
-    <div className="min-h-[70vh] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[70vh] flex items-center justify-center py-10 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-4xl w-full rounded-lg p-8 lg:p-12">
         <h1 className="text-4xl font-bold mb-6 text-gray-800 dark:text-gray-200 text-center">Contact DrPhysio</h1>
         <p className="text-center text-gray-600 dark:text-gray-300 mb-8">

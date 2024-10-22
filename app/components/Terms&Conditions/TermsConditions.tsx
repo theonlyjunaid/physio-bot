@@ -1,6 +1,6 @@
 const TermsAndConditions = () => {
   return (
-    <div className="min-h-screen py-12 px-6 transition duration-300">
+    <div className="min-h-screen py-12 px-6 transition duration-300 bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-5xl mx-auto p-10">
         {/* Terms and Conditions Heading */}
         <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
@@ -71,7 +71,7 @@ const TermsAndConditions = () => {
           8. Contact Us
         </h2>
         <p className="text-lg text-gray-700 dark:text-gray-300 mb-8">
-          If you have any questions about these Terms and Conditions, please contact us at <a href="mailto:support@drphysio.com" className="text-indigo-600 dark:text-indigo-400">support@drphysio.com</a>.
+          If you have any questions about these Terms and Conditions, please contact us at <a href="mailto:drphysiogpt@gmail.com" className="text-indigo-600 dark:text-indigo-400">drphysiogpt@gmail.com</a>.
         </p>
       </div>
     </div>

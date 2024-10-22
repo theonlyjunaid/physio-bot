@@ -334,15 +334,21 @@ const Chat = ({
   //   }
   // }, [messages.length]);
 
+  const imediateNextQuestions = [
+    "Explain the Exercises and Stretches in detail",
+    "Explain the Manual Therapy in detail",
+    "Explain the Pain Management in detail",
+    "Explain the Postural Ergonomics in detail"
+  ]
   return (
-    <div className="flex flex-col-reverse h-full w-full relative ">
+    <div className="flex flex-col h-full w-full relative">
       <ScrollArea className="h-full">
-        <div className="flex-grow overflow-y-auto p-2.5 flex flex-col order-2 whitespace-pre-wrap pb-28">
+        <div className={`flex-grow overflow-y-auto p-2.5 flex flex-col order-2 whitespace-pre-wrap pb-${messages.length > 0 && messages.length < 3 ? "44" : "28"}`}>
           {loading ? (
-            <div className="w-full flex flex-col gap-5 text-center  items-center pt-28 justify-center ">
-              <Loader2 className=" animate-spin" />
+            <div className="w-full flex flex-col gap-5 text-center items-center pt-28 justify-center">
+              <Loader2 className="animate-spin" />
               <p className="text-sm text-gray-500 dark:text-gray-400">
-                Fething Data...
+                Fetching Data...
               </p>
             </div>
           ) : messages.length ? (
@@ -354,11 +360,11 @@ const Chat = ({
               />
             ))
           ) : (
-            <div className="w-full flex flex-col gap-5 text-center  items-center pt-28 justify-center ">
+            <div className="w-full flex flex-col gap-5 text-center items-center pt-28 justify-center">
               <form action={handleFirstMessage}>
                 <Button
                   type="submit"
-                  className="px-6 py-2  border-none text-base rounded-full  h-full"
+                  className="px-6 py-2 border-none text-base rounded-full h-full"
                   disabled={inputDisabled}
                 >
                   Get Response
@@ -369,76 +375,95 @@ const Chat = ({
           <div ref={messagesEndRef} />
         </div>
       </ScrollArea>
-      {messages.length > 0 ? (
 
-        isUserPro ? (messages.length < 50 ?
+      {messages.length > 0 && messages.length < 3 && (
+        <div className="fixed bottom-24  flex  justify-center gap-2 z-20 px-5 mb-4">
+          {imediateNextQuestions.map((question, index) => (
+            <div
+              key={index}
+              className="text-sm bg-white p-2 border cursor-pointer rounded-lg w-1/4 "
+              onClick={() => setUserInput(question)}
+            >
+              {question}
+            </div>
+          ))}
+        </div>
+      )}
 
-          < form
-            onSubmit={handleSubmit}
-            className="p-4 border-t flex-col gap-2  bottom-0 fixed w-full z-10  md:w-[55%] bg-white dark:bg-gray-800"
-          >
-            <div className="flex gap-2">
-              <Input
-                type="text"
-                placeholder="Type your message..."
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                className="flex-grow"
-              />
-              <Button type="submit" disabled={inputDisabled}>
-                <Send className="h-4 w-4" />
-                <span className="sr-only">Send</span>
-              </Button>
-            </div>
-            <div className="text-muted-foreground pt-1 text-sm mx-auto text-center">
-              if message get stuck in a mid way, click{" "}
-              <Button
-                variant="ghost"
-                className="underline p-1"
-                onClick={() => {
-                  if (typeof window !== "undefined") window.location.reload();
-                }}
-              >
-                here
-              </Button>
-            </div>
-          </form> : <div className="text-muted-foreground pt-1 h-8 text-red-500 text-sm mx-auto text-center">
-            You have reached the limit of 50 messages.
-          </div>) : (messages.length < 5 ? < form
-            onSubmit={handleSubmit}
-            className="p-4 border-t flex-col gap-2  bottom-0 fixed w-full z-10  md:w-[55%] bg-white dark:bg-black"
-          >
-            <div className="flex gap-2">
-              <Input
-                type="text"
-                placeholder="Type your message..."
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                className="flex-grow"
-              />
-              <Button type="submit" disabled={inputDisabled}>
-                <Send className="h-4 w-4" />
-                <span className="sr-only">Send</span>
-              </Button>
-            </div>
-            <div className="text-muted-foreground pt-1 text-sm mx-auto text-center">
-              if message get stuck in a mid way, click{" "}
-              <Button
-                variant="ghost"
-                className="underline p-1"
-                onClick={() => {
-                  if (typeof window !== "undefined") window.location.reload();
-                }}
-              >
-                here
-              </Button>
-            </div>
-          </form> : <div className="text-muted-foreground pt-1 text-red-500 h-8 text-sm mx-auto text-center">
-            You have reached the limit of 5 messages. Please upgrade to Pro to continue.
-          </div>)
-      ) : null
-      }
-    </div >
+      {messages.length > 0 && (
+        <div className="p-4 border-t fixed bottom-0 w-full z-10 md:w-[55%] bg-white dark:bg-gray-800">
+          {isUserPro ? (
+            messages.length < 50 ? (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <Input
+                    type="text"
+                    placeholder="Type your message..."
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.target.value)}
+                    className="flex-grow"
+                  />
+                  <Button type="submit" disabled={inputDisabled}>
+                    <Send className="h-4 w-4" />
+                    <span className="sr-only">Send</span>
+                  </Button>
+                </div>
+                <div className="text-muted-foreground text-sm text-center">
+                  If message gets stuck, click{" "}
+                  <Button
+                    variant="link"
+                    className="p-0 h-auto"
+                    onClick={() => {
+                      if (typeof window !== "undefined") window.location.reload();
+                    }}
+                  >
+                    here
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <div className="text-red-500 text-sm text-center">
+                You have reached the limit of 50 messages.
+              </div>
+            )
+          ) : (
+            messages.length < 5 ? (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                  <Input
+                    type="text"
+                    placeholder="Type your message..."
+                    value={userInput}
+                    onChange={(e) => setUserInput(e.target.value)}
+                    className="flex-grow"
+                  />
+                  <Button type="submit" disabled={inputDisabled}>
+                    <Send className="h-4 w-4" />
+                    <span className="sr-only">Send</span>
+                  </Button>
+                </div>
+                <div className="text-muted-foreground text-sm text-center">
+                  If message gets stuck, click{" "}
+                  <Button
+                    variant="link"
+                    className="p-0 h-auto"
+                    onClick={() => {
+                      if (typeof window !== "undefined") window.location.reload();
+                    }}
+                  >
+                    here
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <div className="text-red-500 text-sm text-center">
+                You have reached the limit of 5 messages. Please upgrade to Pro to continue.
+              </div>
+            )
+          )}
+        </div>
+      )}
+    </div>
   );
 };
 
