@@ -20,18 +20,25 @@ const steps = [
 
 const HeroSection: React.FC = () => (
   <>
-    <section className="w-full min-h-[92dvh] py-16 md:py-24 lg:py-32 xl:py-48 bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    <section className="w-full min-h-[92dvh]  bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
       <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center space-y-4 text-center">
-          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none text-blue-600 dark:text-blue-400">
-            Move Better, Live Better
-          </h1>
-          <p className="mx-auto max-w-[700px] text-gray-600 md:text-xl dark:text-gray-300">
-            DrPhysio is your AI-powered physiotherapy assistant, helping you improve your movement and enhance your quality of life.
-          </p>
-          <div className="space-x-4 mt-8">
-            <Link href="/signup"><Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">Get Started</Button></Link>
-            <Link href="/#features"><Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-100">Learn More</Button></Link>
+        <div className="flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0 md:space-x-8">
+          <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left md:w-1/2">
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none text-blue-600 dark:text-blue-400">
+              Move Better, Live Better
+            </h1>
+            <p className="max-w-[700px] text-gray-600 md:text-xl dark:text-gray-300">
+              DrPhysio is your AI-powered physiotherapy assistant, helping you improve your movement and enhance your quality of life.
+            </p>
+            <div className="flex space-x-4 mt-8">
+              <Link href="/signup"><Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">Get Started</Button></Link>
+              <Link href="/#features"><Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-100">Learn More</Button></Link>
+            </div>
+          </div>
+          <div className="md:w-1/2">
+            <Image src="/drphysio.webp" alt="DrPhysio Hero Image" width={1000} height={1000} className="w-full h-auto"
+              loading="eager"
+            />
           </div>
         </div>
       </div>

@@ -57,7 +57,7 @@ export async function NavBar({ className }: { className?: string }) {
           </div>
         ) : (
           <Link href="/signup">
-            <Button>Get Started</Button>
+            <Button variant={"outline"} className="border-blue-600 text-blue-600 hover:bg-blue-100">Get Started</Button>
           </Link>
         )}
       </div>
