@@ -32,6 +32,10 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
           <p className="text-xs text-gray-500 dark:text-gray-400">© 2024 DrPhysio. All rights reserved.</p>
         </div>
       </div>
+      <div className="text-center my-2" >
+        <a href="https://www.freepik.com/free-vector/graident-ai-robot-vectorart_125887871.htm#fromView=search&page=1&position=51&uuid=bbf44878-0a14-4eee-b343-2f90c64ffe2a">Image by juicy_fish on Freepik</a>
+
+      </div>
     </footer>
   );
 }
