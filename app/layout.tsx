@@ -24,12 +24,26 @@ export const metadata: Metadata = {
     description: 'Get personalized physiotherapy assessments and treatment plans with DrPhysio.',
     type: 'website',
     url: 'https://drphysio.co',
+    images: [
+      {
+        url: "/physio_logo.webp",
+        width: 1920,
+        height: 1080,
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     site: '@drphysio',
     title: 'DrPhysio - Your Personal AI Physiotherapist',
     description: 'Get personalized physiotherapy assessments and treatment plans with DrPhysio.',
+    images: [
+      {
+        url: "/physio_logo.webp",
+        width: 1920,
+        height: 1080,
+      },
+    ],
   },
 }
 
