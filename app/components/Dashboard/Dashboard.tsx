@@ -39,12 +39,12 @@ const Dashboard = ({ user }: { user: Iuser }) => {
   return (
     <main className="mx-auto max-w-7xl p-4 md:p-10 min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-gray-200 pb-5">
-        <h1 className="text-4xl font-bold text-gray-900 tracking-tight">My Conversations</h1>
+        <h1 className="text-4xl font-bold text-gray-900 tracking-tight">My Treatments</h1>
         <Dialog>
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
               <Plus className="h-5 w-5 mr-2" />
-              New Conversation
+              Get Your Treatment
             </Button>
           </DialogTrigger>
           <DialogContent className="w-full max-w-md md:max-w-2xl">
