@@ -44,7 +44,7 @@ const Dashboard = ({ user }: { user: Iuser }) => {
           <DialogTrigger asChild>
             <Button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
               <Plus className="h-5 w-5 mr-2" />
-              Get Your Treatment
+              Click for Treatment
             </Button>
           </DialogTrigger>
           <DialogContent className="w-full max-w-md md:max-w-2xl">
