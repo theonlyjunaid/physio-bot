@@ -478,10 +478,11 @@ const Assignment = ({ user }: { user: Iuser }) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Label htmlFor="locationOfPain" className="mb-1">
-              Location of pain{" "}
-            </Label>
-            {/* <Select
+            <div className="w-full max-w-[75vw]">
+              <Label htmlFor="locationOfPain" className="mb-1">
+                Location of pain{" "}
+              </Label>
+              {/* <Select
               onValueChange={(value) => handleMultiSelectChange("locationOfPain", value.split(','))}
               value={assisment.locationOfPain.join(',')}
             >
@@ -494,15 +495,15 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 ))}
               </SelectContent>
             </Select> */}
-            <MultiSelect
-              options={locationOfPainOptions}
-              value={locationOfPain}
-              onChange={setLocationOfPain}
-              labelledBy="Select Locations Of Pain"
-              className="col-span-3 max-h-[20vh]"
-            />
-            {errors.locationOfPain && <p className="text-red-500 text-sm">{errors.locationOfPain}</p>}
-
+              <MultiSelect
+                options={locationOfPainOptions}
+                value={locationOfPain}
+                onChange={setLocationOfPain}
+                labelledBy="Select Locations Of Pain"
+                className="col-span-3 max-h-[20vh]"
+              />
+              {errors.locationOfPain && <p className="text-red-500 text-sm">{errors.locationOfPain}</p>}
+            </div>
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
               <div>
                 <Label htmlFor="durationOfPain" className="mb-1">
@@ -586,7 +587,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 </Select>
                 {errors.isRadiateToOtherPart && <p className="text-red-500 text-sm">{errors.isRadiateToOtherPart}</p>}
               </div>
-              <div>
+              <div className="w-full max-w-[75vw]">
                 <Label htmlFor="customerProblem" className="mb-1">
                   Customer Problem
                 </Label>
@@ -658,10 +659,12 @@ const Assignment = ({ user }: { user: Iuser }) => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Label htmlFor="painIncreasesWhen" className="mb-1">
-              When Pain Increases{" "}
-            </Label>
-            {/* <Select
+            <div className="w-full max-w-[75vw]">
+
+              <Label htmlFor="painIncreasesWhen" className="mb-1">
+                When Pain Increases{" "}
+              </Label>
+              {/* <Select
               onValueChange={(value) => handleMultiSelectChange("painIncreasesWhen", value.split(','))}
               value={assisment.painIncreasesWhen.join(',')}
             >
@@ -674,15 +677,16 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 ))}
               </SelectContent>
             </Select> */}
-            <MultiSelect
-              options={painIncreasesWhenOptions}
-              value={painIncreasesWhen}
-              onChange={setPainIncreasesWhen}
-              labelledBy="Select Locations Of Pain"
-              className="col-span-3 max-h-[20vh]"
-            />
-            {errors.painIncreasesWhen && <p className="text-red-500 text-sm">{errors.painIncreasesWhen}</p>}
+              <MultiSelect
+                options={painIncreasesWhenOptions}
+                value={painIncreasesWhen}
+                onChange={setPainIncreasesWhen}
+                labelledBy="Select Locations Of Pain"
+                className="col-span-3 max-h-[20vh]"
+              />
+              {errors.painIncreasesWhen && <p className="text-red-500 text-sm">{errors.painIncreasesWhen}</p>}
 
+            </div>
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
               <div>
                 <Label htmlFor="painPattern" className="mb-1">
@@ -798,10 +802,12 @@ const Assignment = ({ user }: { user: Iuser }) => {
             <CardDescription>Info about your medical history</CardDescription>
           </CardHeader>
           <CardContent>
-            <Label htmlFor="preExistingCondition" className="mb-1">
-              Pre Existing Conditions{" "}
-            </Label>
-            {/* <Select
+            <div className="w-full max-w-[75vw]">
+
+              <Label htmlFor="preExistingCondition" className="mb-1">
+                Pre Existing Conditions{" "}
+              </Label>
+              {/* <Select
               onValueChange={(value) => handleMultiSelectChange("preExistingCondition", value.split(','))}
               value={assisment.preExistingCondition.join(',')}
             >
@@ -814,15 +820,15 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 ))}
               </SelectContent>
             </Select> */}
-            <MultiSelect
-              options={preExistingConditionOptions}
-              value={preExistingCondition}
-              onChange={setPreExistingCondition}
-              labelledBy="Select Experienced Problems"
-              className="col-span-3 max-h-[20vh]"
-            />
-            {errors.preExistingCondition && <p className="text-red-500 text-sm">{errors.preExistingCondition}</p>}
-
+              <MultiSelect
+                options={preExistingConditionOptions}
+                value={preExistingCondition}
+                onChange={setPreExistingCondition}
+                labelledBy="Select Experienced Problems"
+                className="col-span-3 max-h-[20vh]"
+              />
+              {errors.preExistingCondition && <p className="text-red-500 text-sm">{errors.preExistingCondition}</p>}
+            </div>
             <div className="mb-2 mt-1 grid w-full md:grid-cols-2 gap-2 md:gap-4">
               <div>
                 <Label

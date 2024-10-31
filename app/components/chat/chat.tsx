@@ -376,12 +376,12 @@ const Chat = ({
         </div>
       </ScrollArea>
 
-      {messages.length > 0 && messages.length < 3 && (
-        <div className="fixed bottom-24  flex  justify-center gap-2 z-20 px-5 mb-4">
-          {imediateNextQuestions.map((question, index) => (
+      {messages.length > 0 && messages.length < 2 && (
+        <div className="fixed bottom-24  flex  justify-center gap-2 z-20 px-5 mb-4 ">
+          {imediateNextQuestions.slice(0, 2).map((question, index) => (
             <div
               key={index}
-              className="text-sm bg-white p-2 border cursor-pointer rounded-lg w-1/4 "
+              className="text-sm bg-white p-2 border cursor-pointer rounded-lg w-[40vw] lg:w-1/4 "
               onClick={() => setUserInput(question)}
             >
               {question}
