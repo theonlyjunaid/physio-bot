@@ -499,6 +499,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 options={locationOfPainOptions}
                 value={locationOfPain}
                 onChange={setLocationOfPain}
+                disableSearch={true}
                 labelledBy="Select Locations Of Pain"
                 className="col-span-3 max-h-[20vh]"
               />
@@ -608,6 +609,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   options={customerProblemOptions}
                   value={customerProblem}
                   onChange={setCustomerProblem}
+                  disableSearch={true}
                   labelledBy="Select Experienced Problems"
                   className="col-span-3 max-h-[20vh]"
                 />
@@ -681,6 +683,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 options={painIncreasesWhenOptions}
                 value={painIncreasesWhen}
                 onChange={setPainIncreasesWhen}
+                disableSearch={true}
                 labelledBy="Select Locations Of Pain"
                 className="col-span-3 max-h-[20vh]"
               />
@@ -824,6 +827,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                 options={preExistingConditionOptions}
                 value={preExistingCondition}
                 onChange={setPreExistingCondition}
+                disableSearch={true}
                 labelledBy="Select Experienced Problems"
                 className="col-span-3 max-h-[20vh]"
               />
@@ -875,6 +879,7 @@ const Assignment = ({ user }: { user: Iuser }) => {
                   options={symptomExperiencedOptions}
                   value={symptomExperienced}
                   onChange={setSymptomExperienced}
+                  disableSearch={true}
                   labelledBy="Select Experienced Problems"
                   className="col-span-3 max-h-[20vh]"
                 />
