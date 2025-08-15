@@ -20,19 +20,45 @@ const steps = [
 
 const HeroSection: React.FC = () => (
   <>
-    <section className="w-full min-h-[92dvh]  bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
+    {/* Indian Flag Banner for Independence Day */}
+    <div className="w-full h-3 bg-gradient-to-r from-orange-500 via-white to-green-600 flex">
+      <div className="flex-1 bg-orange-500"></div>
+      <div className="flex-1 bg-white flex items-center justify-center">
+        <div className="w-2 h-2 bg-blue-800 rounded-full"></div>
+      </div>
+      <div className="flex-1 bg-green-600"></div>
+    </div>
+
+    <section className="w-full min-h-[92dvh] bg-gradient-to-r from-orange-50 via-white to-green-50 dark:from-gray-900 dark:to-gray-800 relative overflow-hidden">
+      {/* Indian Flag Elements in Background */}
+      <div className="absolute top-10 right-10 opacity-10">
+        <div className="w-32 h-20 border border-gray-300">
+          <div className="h-1/3 bg-orange-500"></div>
+          <div className="h-1/3 bg-white flex items-center justify-center">
+            <div className="w-4 h-4 border border-blue-800 rounded-full flex items-center justify-center">
+              <div className="w-2 h-2 bg-blue-800 rounded-full"></div>
+            </div>
+          </div>
+          <div className="h-1/3 bg-green-600"></div>
+        </div>
+      </div>
+
       <div className="container px-4 md:px-6">
         <div className="flex flex-col md:flex-row items-center justify-between space-y-8 md:space-y-0 md:space-x-8">
           <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left pt-10 md:pt-0 md:w-1/2">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none text-blue-600 dark:text-blue-400">
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="text-orange-500 text-lg">🇮🇳</span>
+              <span className="text-sm text-gray-600 dark:text-gray-300">Happy Independence Day!</span>
+            </div>
+            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none bg-gradient-to-r from-orange-500 via-blue-600 to-green-600 bg-clip-text text-transparent">
               Move Better, Live Better
             </h1>
             <p className="max-w-[700px] text-gray-600 md:text-xl dark:text-gray-300">
               DrPhysio is your AI-powered physiotherapy assistant, helping you improve your movement and enhance your quality of life.
             </p>
             <div className="flex space-x-4 mt-8">
-              <Link href="/signup"><Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">Get Started</Button></Link>
-              <Link href="/#features"><Button size="lg" variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-100">Learn More</Button></Link>
+              <Link href="/signup"><Button size="lg" className="bg-gradient-to-r from-orange-500 to-green-600 hover:from-orange-600 hover:to-green-700 text-white border-none">Get Started</Button></Link>
+              <Link href="/#features"><Button size="lg" variant="outline" className="border-orange-500 text-orange-600 hover:bg-orange-50">Learn More</Button></Link>
             </div>
           </div>
           <div className="md:w-1/2">
@@ -69,7 +95,7 @@ const HeroSection: React.FC = () => (
         <div className="grid gap-8 lg:grid-cols-3">
           {steps.map((step, index) => (
             <div key={index} className="flex flex-col items-center text-center">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-600 text-white text-2xl font-bold mb-4">{index + 1}</div>
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-r from-orange-500 to-green-600 text-white text-2xl font-bold mb-4">{index + 1}</div>
               <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-white">{step.title}</h3>
               <p className="text-gray-600 dark:text-gray-300">{step.content}</p>
             </div>
@@ -78,14 +104,14 @@ const HeroSection: React.FC = () => (
       </div>
     </section>
 
-    <section id="cta" className="w-full py-16 md:py-24 lg:py-32 bg-blue-600 dark:bg-blue-800">
+    <section id="cta" className="w-full py-16 md:py-24 lg:py-32 bg-gradient-to-r from-orange-500 via-blue-600 to-green-600 dark:from-orange-700 dark:via-blue-800 dark:to-green-700">
       <div className="container px-4 md:px-6">
         <div className="flex flex-col items-center space-y-4 text-center">
           <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl text-white">Start Your Journey to Better Movement</h2>
-          <p className="mx-auto max-w-[600px] text-blue-100 md:text-lg">
+          <p className="mx-auto max-w-[600px] text-white/90 md:text-lg">
             Join thousands of users who have improved their quality of life with DrPhysio. Sign up today and take the first step towards moving better and living better.
           </p>
-          <Button size="lg" className="mt-8 bg-white text-blue-600 hover:bg-blue-50">Get Started Now</Button>
+          <Button size="lg" className="mt-8 bg-white text-orange-600 hover:bg-orange-50">Get Started Now</Button>
         </div>
       </div>
     </section>
