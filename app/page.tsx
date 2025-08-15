@@ -17,7 +17,7 @@ export default async function Home() {
     <div className="flex min-h-screen flex-col">
       <NavBar />
       <HeroSection />
-      {/* <HowToGetStarted /> */}
+      <FAQs />
       <SiteFooter />
     </div>
   );

@@ -21,7 +21,7 @@ export async function NavBar({ className }: { className?: string }) {
   }
 
   return (
-    <header className={cn("sticky top-0 z-50 w-full bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 backdrop-blur-lg", className)}>
+    <header className={cn("sticky top-0 z-50 w-full bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800/80 backdrop-blur-lg", className)}>
       <Script id="google-analytics">
         {` window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments)}
@@ -42,6 +42,12 @@ export async function NavBar({ className }: { className?: string }) {
           />
         </Link>
 
+        <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700 dark:text-gray-300">
+          <Link href="/#features" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Features</Link>
+          <Link href="/#how-it-works" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">How it works</Link>
+          <Link href="/#faqs" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">FAQs</Link>
+          <Link href="/contacts" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</Link>
+        </nav>
 
         {user ? (
           <div className="flex items-center space-x-4">
